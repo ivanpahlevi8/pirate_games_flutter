@@ -22,7 +22,7 @@ class MainPlayer extends SpriteAnimationGroupComponent
 
   @override
   FutureOr<void> onLoad() {
-    size = Vector2(48, 48);
+    size = Vector2(128, 128);
 
     anchor = Anchor.center;
     /**
@@ -50,8 +50,6 @@ class MainPlayer extends SpriteAnimationGroupComponent
 
     // update palyer state
     _handlePlayerState();
-
-    print("Check player position : (${position.x}, ${position.y})");
 
     super.update(dt);
   }

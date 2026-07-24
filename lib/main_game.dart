@@ -59,7 +59,7 @@ class MainGame extends FlameGame
     currentLevel?.removeFromParent();
 
     // first level
-    player.position = Vector2(100, 100);
+    player.position = Vector2(120, 500);
     currentLevel = Level(levelTitle: levelList[selectedLevel], player: player);
 
     // cam = CameraComponent(
@@ -72,11 +72,13 @@ class MainGame extends FlameGame
       world: currentLevel,
     );
 
+    cam!.viewfinder.zoom = 0.45;
+
     // 1. CHANGE THIS TO CENTER
     cam!.viewfinder.anchor = Anchor.center;
 
     // 2. Set the initial position.
-    cam!.viewfinder.position = Vector2(20 * 16, 180);
+    cam!.viewfinder.position = Vector2(800, 380);
 
     // cam.viewfinder.anchor = Anchor.center;
     // cam.follow(playerMask);
