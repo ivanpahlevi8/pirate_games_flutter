@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:pirate_action/component/collision_block.dart';
+import 'package:pirate_action/core/custom_hitbox.dart';
 import 'package:pirate_action/core/player_platform_collision.dart';
 import 'package:pirate_action/main_game.dart';
 
@@ -27,6 +29,15 @@ class MainPlayer extends SpriteAnimationGroupComponent
   // list of all collision blocks
   List<CollisionBlock> allCollisionBlock = [];
 
+  // create hitbox for player
+  CustomHitbox playerCustomHitbox = CustomHitbox(
+    offsetX: 36,
+    offsetY: 10,
+    width: 54,
+    height: 96,
+  );
+  late RectangleHitbox playerRectangleHitbox;
+
   @override
   FutureOr<void> onLoad() {
     size = Vector2(128, 128);
@@ -42,10 +53,21 @@ class MainPlayer extends SpriteAnimationGroupComponent
      * It also same as the bottom, it will be (100 + (64/2), 100 + (64/2))
      */
 
-    debugMode = true;
-
     // load all player
     _loadAllPlayerState();
+
+    // create player rectangle hitbox
+    playerRectangleHitbox = RectangleHitbox(
+      position: Vector2(playerCustomHitbox.offsetX, playerCustomHitbox.offsetY),
+      size: Vector2(playerCustomHitbox.width, playerCustomHitbox.height),
+    );
+
+    add(playerRectangleHitbox);
+
+    /**
+     * The hitbox is not drawn on the perspective of center anchor, so it will be
+     * drawn from the top left of the player area
+     */
 
     return super.onLoad();
   }
@@ -131,7 +153,7 @@ class MainPlayer extends SpriteAnimationGroupComponent
   void _handlePlayerState() {
     if (playerDirectionMove < 0) {
       scale.x = -1.0;
-    } else {
+    } else if (playerDirectionMove > 0) {
       scale.x = 1.0;
     }
 
@@ -170,14 +192,20 @@ class MainPlayer extends SpriteAnimationGroupComponent
       // check collision on horizontal
       if (playerDirectionMove != 0) {
         if (isCollide && playerDirectionMove > 0) {
+          // get top left player first
+          double _playerLeft = platform.position.x - width;
+
           // collision happen on right, update player position
-          position.x = platform.position.x - width / 2;
+          position.x = (_playerLeft + width / 2) + playerCustomHitbox.offsetX;
 
           // set velocity to 0
           playerDirectionMove = 0;
         } else if (isCollide && playerDirectionMove < 0) {
-          // collision happen on left, update
-          position.x = platform.position.x + platform.width + width / 2;
+          // get top right player position, where the player should be after collision
+          double _playerRight = platform.position.x + platform.width + width;
+
+          // adjust x position
+          position.x = (_playerRight - width / 2) - playerCustomHitbox.offsetX;
 
           // set player direction
           playerDirectionMove = 0;
@@ -193,7 +221,11 @@ class MainPlayer extends SpriteAnimationGroupComponent
 
       // check collision on vertical
       if (isCollide && velocity.y > 0) {
-        position.y = platform.y - width / 2;
+        position.y =
+            platform.y -
+            playerCustomHitbox.height -
+            playerCustomHitbox.offsetY +
+            (height / 2);
 
         velocity.y = 0;
       }

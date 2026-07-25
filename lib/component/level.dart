@@ -26,8 +26,6 @@ class Level extends World with HasGameReference<MainGame> {
 
     _loadCollisionObject();
 
-    debugMode = true;
-
     add(level);
 
     add(player);

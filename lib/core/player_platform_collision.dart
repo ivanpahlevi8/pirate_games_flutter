@@ -8,8 +8,13 @@ bool checkCollisionPlayerWithPlatform(
   // get player actual x and y position that result of using anchor center
   double playerLeft = player.position.x - (player.width / 2);
   double playerTop = player.position.y - (player.height / 2);
-  double playerRight = playerLeft + player.width;
-  double playerBottom = playerTop + player.height;
+
+  // create player actual border
+  double playerActualLeft = playerLeft + player.playerCustomHitbox.offsetX;
+  double playerActualRight = playerActualLeft + player.playerCustomHitbox.width;
+  double playerActualTop = playerTop + player.playerCustomHitbox.offsetY;
+  double playerActualBottom =
+      playerActualTop + player.playerCustomHitbox.height;
 
   // Get collision block edges
   double boxLeft = collision.position.x;
@@ -18,10 +23,10 @@ bool checkCollisionPlayerWithPlatform(
   double boxBottom = boxTop + collision.height;
 
   // Standard AABB Collision checks
-  bool isCollideOnRight = playerRight > boxLeft;
-  bool isCollideOnLeft = playerLeft < boxRight;
-  bool isCollideOnBottom = playerBottom > boxTop;
-  bool isCollideOnTop = playerTop < boxBottom;
+  bool isCollideOnRight = playerActualRight > boxLeft;
+  bool isCollideOnLeft = playerActualLeft < boxRight;
+  bool isCollideOnBottom = playerActualBottom > boxTop;
+  bool isCollideOnTop = playerActualTop < boxBottom;
 
   return isCollideOnRight &&
       isCollideOnLeft &&
