@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
+import 'package:pirate_action/component/collision_block.dart';
+import 'package:pirate_action/core/player_platform_collision.dart';
 import 'package:pirate_action/main_game.dart';
 
 enum playerState { Idle, Run, Jump, Fall }
@@ -15,10 +17,13 @@ class MainPlayer extends SpriteAnimationGroupComponent
 
   // parameter player to move
   int playerDirectionMove = 0;
-  int playerVelocity = 100;
+  int playerVelocity = 150;
 
   // parameter for handle jump
   bool isJump = false;
+
+  // list of all collision blocks
+  List<CollisionBlock> allCollisionBlock = [];
 
   @override
   FutureOr<void> onLoad() {
@@ -50,6 +55,9 @@ class MainPlayer extends SpriteAnimationGroupComponent
 
     // update palyer state
     _handlePlayerState();
+
+    // update collision with platform
+    _handleCollisionWithPlatform();
 
     super.update(dt);
   }
@@ -118,5 +126,22 @@ class MainPlayer extends SpriteAnimationGroupComponent
 
     // generate sprite animation
     return SpriteAnimation.spriteList(listOfSprites, stepTime: 0.05);
+  }
+
+  // function to handle collision with
+  void _handleCollisionWithPlatform() {
+    for (final platform in allCollisionBlock) {
+      // check is collide
+      final isCollide = checkCollisionPlayerWithPlatform(this, platform);
+
+      // check collision on horizontal
+      if (isCollide && playerDirectionMove > 0) {
+        // collision happen on right, update player position
+        position.x = platform.position.x - width / 2;
+      } else if (isCollide && playerDirectionMove < 0) {
+        // collision happen on left, update
+        position.x = platform.position.x + platform.width + width / 2;
+      }
+    }
   }
 }

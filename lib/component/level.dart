@@ -16,18 +16,21 @@ class Level extends World with HasGameReference<MainGame> {
   // create tiled component
   late TiledComponent level;
 
+  // list of all collision object
+  List<CollisionBlock> allCollisionBlocks = [];
+
   @override
   FutureOr<void> onLoad() async {
     // load tiled component from assets
     level = await TiledComponent.load("$levelTitle.tmx", Vector2.all(32));
+
+    _loadCollisionObject();
 
     debugMode = true;
 
     add(level);
 
     add(player);
-
-    _loadCollisionObject();
 
     return super.onLoad();
   }
@@ -40,7 +43,6 @@ class Level extends World with HasGameReference<MainGame> {
 
     if (getCollisionObject != null) {
       // loop through all object
-      print("Num of object : ${getCollisionObject.objects.length}");
       for (final object in getCollisionObject.objects) {
         // check object class
         switch (object.class_) {
@@ -48,8 +50,6 @@ class Level extends World with HasGameReference<MainGame> {
             // get posiiton and size
             Vector2 getPosition = object.position;
             Vector2 getSize = object.size;
-
-            print("Check poisition platform : $getPosition");
 
             // create collision object
             final collisionPlatform = CollisionBlock(
@@ -61,13 +61,14 @@ class Level extends World with HasGameReference<MainGame> {
             // add to level
             add(collisionPlatform);
 
+            // add to list
+            allCollisionBlocks.add(collisionPlatform);
+
             break;
           default:
             // get posiiton and size
             Vector2 getPosition = object.position;
             Vector2 getSize = object.size;
-
-            print("Check poisition object : $getPosition");
 
             // create collision object
             final collisionObject = CollisionBlock(
@@ -78,9 +79,15 @@ class Level extends World with HasGameReference<MainGame> {
 
             add(collisionObject);
 
+            // add to list
+            allCollisionBlocks.add(collisionObject);
+
             break;
         }
       }
+
+      // assign list block to player class
+      player.allCollisionBlock = allCollisionBlocks;
     }
   }
 }
