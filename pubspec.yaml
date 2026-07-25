@@ -66,6 +66,8 @@ flutter:
     - assets/images/Treasure Hunters/Palm Tree Island/Sprites/Terrain/
     - assets/images/Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/01-Idle/
     - assets/images/Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/02-Run/
+    - assets/images/Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/03-Jump/
+    - assets/images/Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/04-Fall/
     - assets/images/hud/
 
   # An image asset can refer to one or more resolution-specific "variants", see
