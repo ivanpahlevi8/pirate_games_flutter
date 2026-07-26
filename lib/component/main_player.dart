@@ -3,19 +3,35 @@ import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:pirate_action/component/collision_block.dart';
+import 'package:pirate_action/component/sword_component.dart';
 import 'package:pirate_action/core/custom_hitbox.dart';
 import 'package:pirate_action/core/player_platform_collision.dart';
 import 'package:pirate_action/main_game.dart';
 
-enum playerState { Idle, Run, Jump, Fall }
+enum playerState {
+  Idle,
+  Run,
+  Jump,
+  Fall,
+  IdleSword,
+  RunSword,
+  JumpSword,
+  FallSword,
+}
 
 class MainPlayer extends SpriteAnimationGroupComponent
-    with HasGameReference<MainGame> {
+    with HasGameReference<MainGame>, CollisionCallbacks {
   // create state for each player state
   late final SpriteAnimation playerIdleAnimation;
   late final SpriteAnimation playerRunAnimation;
   late final SpriteAnimation playerJumpAnimation;
   late final SpriteAnimation playerFallAnimation;
+
+  // state for player has sword
+  late final SpriteAnimation playerIdleSwordAnimation;
+  late final SpriteAnimation playerRunSwordAnimation;
+  late final SpriteAnimation playerJumpSwordAnimation;
+  late final SpriteAnimation playerFallSwordAnimation;
 
   // parameter player to move
   int playerDirectionMove = 0;
@@ -38,8 +54,11 @@ class MainPlayer extends SpriteAnimationGroupComponent
   );
   late RectangleHitbox playerRectangleHitbox;
 
+  // stete for  sword atachment
+  bool isSwordAttach = false;
+
   @override
-  FutureOr<void> onLoad() {
+  FutureOr<void> onLoad() async {
     size = Vector2(128, 128);
 
     anchor = Anchor.center;
@@ -54,7 +73,7 @@ class MainPlayer extends SpriteAnimationGroupComponent
      */
 
     // load all player
-    _loadAllPlayerState();
+    await _loadAllPlayerState();
 
     // create player rectangle hitbox
     playerRectangleHitbox = RectangleHitbox(
@@ -93,7 +112,16 @@ class MainPlayer extends SpriteAnimationGroupComponent
     super.update(dt);
   }
 
-  void _loadAllPlayerState() async {
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (other is SwordComponent) {
+      isSwordAttach = true;
+    }
+
+    super.onCollision(intersectionPoints, other);
+  }
+
+  Future<void> _loadAllPlayerState() async {
     // create image list for idle animation
     List<String> idleAnimationList = [
       "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/01-Idle/Idle 01.png",
@@ -133,11 +161,62 @@ class MainPlayer extends SpriteAnimationGroupComponent
 
     playerFallAnimation = await _createPlayerAnimation(fallAnimationList);
 
+    // craete image list for idle sword animation
+    List<String> idleSwordAnimationList = [
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/09-Idle Sword/Idle Sword 01.png",
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/09-Idle Sword/Idle Sword 02.png",
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/09-Idle Sword/Idle Sword 03.png",
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/09-Idle Sword/Idle Sword 04.png",
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/09-Idle Sword/Idle Sword 05.png",
+    ];
+
+    playerIdleSwordAnimation = await _createPlayerAnimation(
+      idleSwordAnimationList,
+    );
+
+    // create image list for run sword animation
+    List<String> runSwordAnimationList = [
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/10-Run Sword/Run Sword 01.png",
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/10-Run Sword/Run Sword 02.png",
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/10-Run Sword/Run Sword 03.png",
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/10-Run Sword/Run Sword 04.png",
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/10-Run Sword/Run Sword 05.png",
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/10-Run Sword/Run Sword 06.png",
+    ];
+
+    playerRunSwordAnimation = await _createPlayerAnimation(
+      runSwordAnimationList,
+    );
+
+    // create image list for jump sword animation
+    List<String> jumpSwordAnimationList = [
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/11-Jump Sword/Jump Sword 01.png",
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/11-Jump Sword/Jump Sword 02.png",
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/11-Jump Sword/Jump Sword 03.png",
+    ];
+
+    playerJumpSwordAnimation = await _createPlayerAnimation(
+      jumpSwordAnimationList,
+    );
+
+    // crreate image list for fall sword animation
+    List<String> fallSwordAnimationList = [
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/12-Fall Sword/Fall Sword 01.png",
+    ];
+
+    playerFallSwordAnimation = await _createPlayerAnimation(
+      fallSwordAnimationList,
+    );
+
     animations = {
       playerState.Idle: playerIdleAnimation,
       playerState.Run: playerRunAnimation,
       playerState.Jump: playerJumpAnimation,
       playerState.Fall: playerFallAnimation,
+      playerState.IdleSword: playerIdleSwordAnimation,
+      playerState.RunSword: playerRunSwordAnimation,
+      playerState.JumpSword: playerJumpSwordAnimation,
+      playerState.FallSword: playerFallSwordAnimation,
     };
 
     current = playerState.Idle;
@@ -159,15 +238,27 @@ class MainPlayer extends SpriteAnimationGroupComponent
 
     // handle horizontal case
     if (playerDirectionMove != 0 && velocity.y == 0) {
-      current = playerState.Run;
+      if (isSwordAttach) {
+        current = playerState.RunSword;
+      } else {
+        current = playerState.Run;
+      }
     } else if (velocity.y > 0) {
       // player fall
-      current = playerState.Fall;
+      if (isSwordAttach) {
+        current = playerState.FallSword;
+      } else {
+        current = playerState.Fall;
+      }
     } else if (velocity.y < 0) {
       // player jump
-      current = playerState.Jump;
+      if (isSwordAttach) current = playerState.Jump;
     } else {
-      current = playerState.Idle;
+      if (isSwordAttach) {
+        current = playerState.IdleSword;
+      } else {
+        current = playerState.Idle;
+      }
     }
   }
 

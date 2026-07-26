@@ -35,8 +35,6 @@ class MainGame extends FlameGame
 
     await images.loadAllImages();
 
-    await images.loadAllImages();
-
     _loadWorld();
 
     // load all controller

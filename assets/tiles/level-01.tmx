@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="150" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="9">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="150" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="14">
  <tileset firstgid="1" source="IslandTerrain.tsx"/>
  <layer id="1" name="Tile Layer 1" width="150" height="23">
   <data encoding="csv">
@@ -35,6 +35,11 @@
   <object id="5" type="Platform" x="415.5" y="416.75" width="97" height="32.5"/>
   <object id="6" type="Platform" x="415.5" y="416.75" width="97" height="32.5"/>
   <object id="8" x="673.333" y="512" width="94" height="223.333"/>
+  <object id="10" x="865.333" y="477.333" width="220" height="34.6667"/>
+  <object id="11" x="1154.67" y="609.333" width="540" height="125.333"/>
  </objectgroup>
- <objectgroup id="2" name="Spawn"/>
+ <objectgroup id="2" name="Spawn">
+  <object id="12" type="Sword" x="929.333" y="416" width="58.6667" height="60"/>
+  <object id="13" x="649.333" y="878.667"/>
+ </objectgroup>
 </map>
