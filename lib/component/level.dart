@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:pirate_action/component/barrel_component.dart';
 import 'package:pirate_action/component/collision_block.dart';
 import 'package:pirate_action/component/main_player.dart';
 import 'package:pirate_action/component/sword_component.dart';
@@ -116,6 +117,19 @@ class Level extends World with HasGameReference<MainGame> {
 
             // add to level
             add(swordComponent);
+
+            break;
+          case "Barrel":
+            // get position
+            Vector2 getPositionInput = object.position;
+
+            // create barrel object
+            BarrelComponent barrelComponent = BarrelComponent(
+              inputPosition: getPositionInput,
+              inputSize: Vector2(64, 64),
+            );
+
+            add(barrelComponent);
         }
       }
     }

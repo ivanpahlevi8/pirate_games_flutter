@@ -1,8 +1,8 @@
 class CustomHitbox {
-  final double offsetX;
-  final double offsetY;
-  final double width;
-  final double height;
+  double offsetX;
+  double offsetY;
+  double width;
+  double height;
 
   CustomHitbox({
     required this.offsetX,

@@ -22,6 +22,8 @@ class MainGame extends FlameGame
   // create hud button component
   late HudButtonComponent jumpButtonComponent;
 
+  late HudButtonComponent attackButtonComponent;
+
   @override
   Color backgroundColor() => const Color(0xFF211F30);
 
@@ -40,6 +42,7 @@ class MainGame extends FlameGame
     // load all controller
     _loadJoyStick();
     _loadJumpButton();
+    _loadAttackButton();
   }
 
   @override
@@ -125,6 +128,30 @@ class MainGame extends FlameGame
     );
 
     cam!.viewport.add(jumpButtonComponent);
+  }
+
+  // function to load attaack button
+  void _loadAttackButton() {
+    attackButtonComponent = HudButtonComponent(
+      button: SpriteComponent(
+        sprite: Sprite(images.fromCache('hud/unpress_attack_button.png')),
+        size: Vector2(64, 64),
+      ),
+      buttonDown: SpriteComponent(
+        sprite: Sprite(images.fromCache('hud/press_attack_button.png')),
+        size: Vector2(96, 96),
+      ),
+      onPressed: () {
+        player.isAttack = true;
+      },
+      onReleased: () {
+        player.isAttack = true;
+      },
+      margin: const EdgeInsets.only(right: 100, bottom: 1),
+      priority: 100,
+    );
+
+    cam!.viewport.add(attackButtonComponent);
   }
 
   void _handleJoyStick() {

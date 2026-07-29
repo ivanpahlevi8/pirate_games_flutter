@@ -17,6 +17,9 @@ enum playerState {
   RunSword,
   JumpSword,
   FallSword,
+  IdleAttack1,
+  IdleAttack2,
+  IdleAttack3,
 }
 
 class MainPlayer extends SpriteAnimationGroupComponent
@@ -32,6 +35,7 @@ class MainPlayer extends SpriteAnimationGroupComponent
   late final SpriteAnimation playerRunSwordAnimation;
   late final SpriteAnimation playerJumpSwordAnimation;
   late final SpriteAnimation playerFallSwordAnimation;
+  late final SpriteAnimation playerIdleAttack1Animation;
 
   // parameter player to move
   int playerDirectionMove = 0;
@@ -41,6 +45,9 @@ class MainPlayer extends SpriteAnimationGroupComponent
 
   // parameter for handle jump
   bool isJump = false;
+
+  // parameter to handle attack
+  bool isAttack = false;
 
   // list of all collision blocks
   List<CollisionBlock> allCollisionBlock = [];
@@ -60,6 +67,8 @@ class MainPlayer extends SpriteAnimationGroupComponent
   @override
   FutureOr<void> onLoad() async {
     size = Vector2(128, 128);
+
+    debugMode = true;
 
     anchor = Anchor.center;
     /**
@@ -116,6 +125,10 @@ class MainPlayer extends SpriteAnimationGroupComponent
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is SwordComponent) {
       isSwordAttach = true;
+
+      // update hitbox
+      playerRectangleHitbox.width += 20;
+      playerCustomHitbox.width += 20;
     }
 
     super.onCollision(intersectionPoints, other);
@@ -208,6 +221,17 @@ class MainPlayer extends SpriteAnimationGroupComponent
       fallSwordAnimationList,
     );
 
+    // create image list for idle attack 1
+    List<String> idleAttack1AnimationList = [
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/15-Attack 1/Attack 1 01.png",
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/15-Attack 1/Attack 1 02.png",
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/15-Attack 1/Attack 1 03.png",
+    ];
+
+    playerIdleAttack1Animation = await _createPlayerAnimation(
+      idleAttack1AnimationList,
+    );
+
     animations = {
       playerState.Idle: playerIdleAnimation,
       playerState.Run: playerRunAnimation,
@@ -217,6 +241,7 @@ class MainPlayer extends SpriteAnimationGroupComponent
       playerState.RunSword: playerRunSwordAnimation,
       playerState.JumpSword: playerJumpSwordAnimation,
       playerState.FallSword: playerFallSwordAnimation,
+      playerState.IdleAttack1: playerIdleAttack1Animation,
     };
 
     current = playerState.Idle;
@@ -236,8 +261,19 @@ class MainPlayer extends SpriteAnimationGroupComponent
       scale.x = 1.0;
     }
 
+    if (isAttack) {
+      playerDirectionMove = 0;
+      current = playerState.IdleAttack1;
+
+      Future.delayed(Duration(milliseconds: 200), () {
+        isAttack = false;
+      });
+
+      return;
+    }
+
     // handle horizontal case
-    if (playerDirectionMove != 0 && velocity.y == 0) {
+    if (playerDirectionMove != 0 && velocity.y == 0 && !isAttack) {
       if (isSwordAttach) {
         current = playerState.RunSword;
       } else {
@@ -252,7 +288,11 @@ class MainPlayer extends SpriteAnimationGroupComponent
       }
     } else if (velocity.y < 0) {
       // player jump
-      if (isSwordAttach) current = playerState.Jump;
+      if (isSwordAttach) {
+        current = playerState.JumpSword;
+      } else {
+        current = playerState.Jump;
+      }
     } else {
       if (isSwordAttach) {
         current = playerState.IdleSword;
@@ -287,7 +327,10 @@ class MainPlayer extends SpriteAnimationGroupComponent
           double _playerLeft = platform.position.x - width;
 
           // collision happen on right, update player position
-          position.x = (_playerLeft + width / 2) + playerCustomHitbox.offsetX;
+          position.x =
+              (_playerLeft + width / 2) +
+              playerCustomHitbox.offsetX -
+              (isSwordAttach ? 20 : 0);
 
           // set velocity to 0
           playerDirectionMove = 0;
@@ -296,7 +339,10 @@ class MainPlayer extends SpriteAnimationGroupComponent
           double _playerRight = platform.position.x + platform.width + width;
 
           // adjust x position
-          position.x = (_playerRight - width / 2) - playerCustomHitbox.offsetX;
+          position.x =
+              (_playerRight - width / 2) -
+              playerCustomHitbox.offsetX -
+              (isSwordAttach ? 20 : 0);
 
           // set player direction
           playerDirectionMove = 0;
@@ -333,9 +379,16 @@ class MainPlayer extends SpriteAnimationGroupComponent
   // function to handle jump
   void _handleJump(double dt) {
     if (isJump) {
-      velocity.y = -10;
+      velocity.y = -9.8;
 
       position.y += velocity.y;
+    }
+  }
+
+  // function to handle attack
+  void handleAttack() {
+    if (!isAttack) {
+      isAttack = true;
     }
   }
 }
