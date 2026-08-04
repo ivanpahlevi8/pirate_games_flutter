@@ -38,7 +38,6 @@ class BarrelComponent extends SpriteAnimationGroupComponent
 
   @override
   FutureOr<void> onLoad() {
-    debugMode = true;
     // create animation for idle animation
     List<String> listIdleAnimationImage = [
       "Treasure Hunters/Merchant Ship/Sprites/Barrel/Idle/1.png",

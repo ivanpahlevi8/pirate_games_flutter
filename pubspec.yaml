@@ -77,6 +77,7 @@ flutter:
     - assets/images/Treasure Hunters/Merchant Ship/Sprites/Barrel/Idle/
     - assets/images/Treasure Hunters/Merchant Ship/Sprites/Barrel/Hit/
     - assets/images/Treasure Hunters/Merchant Ship/Sprites/Barrel/Destroyed/
+    - assets/images/Treasure Hunters/Palm Tree Island/Sprites/Back Palm Trees/
     - assets/images/hud/
 
   # An image asset can refer to one or more resolution-specific "variants", see

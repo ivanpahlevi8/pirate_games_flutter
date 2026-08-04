@@ -4,7 +4,10 @@ import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:pirate_action/component/barrel_component.dart';
 import 'package:pirate_action/component/collision_block.dart';
+import 'package:pirate_action/component/left_palm_tree.dart';
 import 'package:pirate_action/component/main_player.dart';
+import 'package:pirate_action/component/regular_palm_tree.dart';
+import 'package:pirate_action/component/right_plam_tree.dart';
 import 'package:pirate_action/component/sword_component.dart';
 import 'package:pirate_action/main_game.dart';
 
@@ -130,6 +133,50 @@ class Level extends World with HasGameReference<MainGame> {
             );
 
             add(barrelComponent);
+
+            break;
+          case "leftPalmTree":
+            // get position
+            Vector2 getPosition = object.position;
+            Vector2 getSize = object.size;
+
+            // create left tree object
+            LeftPalmTree leftTreeObject = LeftPalmTree(
+              inputPosition: getPosition,
+              inputSize: getSize,
+            );
+
+            add(leftTreeObject);
+
+            break;
+          case "regularPalmTree":
+            // get position
+            Vector2 getPosition = object.position;
+            Vector2 getSize = object.size;
+
+            // create left tree object
+            RegularPalmTree regularPalmTree = RegularPalmTree(
+              inputPosition: getPosition,
+              inputSize: getSize,
+            );
+
+            add(regularPalmTree);
+
+            break;
+          case "rightPlamTree":
+            // get position
+            Vector2 getPosition = object.position;
+            Vector2 getSize = object.size;
+
+            // create right tree object
+            RightPlamTree rightPalmTree = RightPlamTree(
+              inputPosition: getPosition,
+              inputSize: getSize,
+            );
+
+            add(rightPalmTree);
+
+            break;
         }
       }
     }
