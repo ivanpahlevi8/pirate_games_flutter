@@ -1,13 +1,15 @@
 import 'dart:async';
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:pirate_action/component/collision_block.dart';
 import 'package:pirate_action/main_game.dart';
 
 // create enum for state of canon ball
 enum CanonBallState { idle, explosion, destroyed }
 
 class CanonBall extends SpriteAnimationGroupComponent
-    with HasGameReference<MainGame> {
+    with HasGameReference<MainGame>, CollisionCallbacks {
   final Vector2 inputPosition;
   final Vector2 inputSize;
 
@@ -19,8 +21,11 @@ class CanonBall extends SpriteAnimationGroupComponent
   late SpriteAnimation canonBallDestroyedAnimation;
 
   // canon ball trajectory, it moves to the left and applied with gravuty
-  Vector2 velocity = Vector2(-500, 9.8);
-  double gravitySum = 0.0;
+  Vector2 velocity = Vector2(-7, 0);
+  Vector2 accelaration = Vector2(-5, 9.8);
+
+  // collide parameters
+  bool isBallCollide = false;
 
   @override
   FutureOr<void> onLoad() {
@@ -67,27 +72,63 @@ class CanonBall extends SpriteAnimationGroupComponent
     // set current animation
     current = CanonBallState.idle;
 
+    // add hitbox
+    add(RectangleHitbox(position: Vector2(0, 0), size: inputSize));
+
     return super.onLoad();
   }
 
   @override
   void update(double dt) {
-    _updateCanonBallTrajectory(dt);
-    _applyGravity(dt);
+    if (!isBallCollide) {
+      _updateCanonBallTrajectory(dt);
+      _applyGravity(dt);
+    }
 
     super.update(dt);
   }
 
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    // check collision with collision block
+    if (other is CollisionBlock && !isBallCollide) {
+      // update velocity to ze
+      // set ball to freeze
+      isBallCollide = true;
+
+      // update state to explosion
+      current = CanonBallState.explosion;
+
+      Future.delayed(Duration(milliseconds: 400), () {
+        // update state into destroyed
+        current = CanonBallState.destroyed;
+
+        // remove ball from parent
+        Future.delayed(Duration(milliseconds: 200), () {
+          removeFromParent();
+        });
+      });
+    }
+
+    super.onCollision(intersectionPoints, other);
+  }
+
   // function to update canon ball trajectory
   void _updateCanonBallTrajectory(double dt) {
+    // add x speed based on accleration
+    velocity.x += accelaration.x * dt;
+
     // update canon ball on x direction
-    position.x += velocity.x * dt;
+    position.x += velocity.x;
   }
 
   // function to apply gravity to bullet
   void _applyGravity(dt) {
-    gravitySum += velocity.y * dt;
-    position.y += gravitySum;
+    // add y speed based on acclearation
+    velocity.y += accelaration.y * dt;
+
+    // update position
+    position.y += velocity.y;
   }
 
   SpriteAnimation _createSpriteAnimation(List<String> imagesList) {
