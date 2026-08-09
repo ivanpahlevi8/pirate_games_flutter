@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:pirate_action/component/barrel_component.dart';
+import 'package:pirate_action/component/canon.dart';
 import 'package:pirate_action/component/collision_block.dart';
 import 'package:pirate_action/component/left_palm_tree.dart';
 import 'package:pirate_action/component/main_player.dart';
@@ -175,6 +176,20 @@ class Level extends World with HasGameReference<MainGame> {
             );
 
             add(rightPalmTree);
+
+            break;
+          case "cannon":
+            // get position
+            Vector2 getPosition = object.position;
+            Vector2 getSize = object.size;
+
+            // create canon object
+            Canon cannonObject = Canon(
+              inputPosition: getPosition,
+              inputSize: getSize,
+            );
+
+            add(cannonObject);
 
             break;
         }

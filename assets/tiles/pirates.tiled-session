@@ -24,6 +24,7 @@
         "level-01.tmx"
     ],
     "project": "pirates.tiled-project",
+    "property.type": "bool",
     "recentFiles": [
         "level-01.tmx",
         "IslandTerrain.tsx"
