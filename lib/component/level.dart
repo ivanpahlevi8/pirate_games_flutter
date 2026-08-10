@@ -3,12 +3,13 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:pirate_action/component/barrel_component.dart';
-import 'package:pirate_action/component/canon.dart';
+import 'package:pirate_action/component/cannon_trap/canon.dart';
 import 'package:pirate_action/component/collision_block.dart';
 import 'package:pirate_action/component/left_palm_tree.dart';
 import 'package:pirate_action/component/main_player.dart';
 import 'package:pirate_action/component/regular_palm_tree.dart';
 import 'package:pirate_action/component/right_plam_tree.dart';
+import 'package:pirate_action/component/seashell_trap/seashell.dart';
 import 'package:pirate_action/component/sword_component.dart';
 import 'package:pirate_action/main_game.dart';
 
@@ -190,6 +191,18 @@ class Level extends World with HasGameReference<MainGame> {
             );
 
             add(cannonObject);
+
+            break;
+          case "Seashell":
+            // get position
+            Vector2 getPosition = object.position;
+            Vector2 getSize = object.size;
+
+            // create seashell
+            Seashell seashell =
+                Seashell(inputPosition: getPosition, inputSize: getSize);
+
+            add(seashell);
 
             break;
         }

@@ -86,6 +86,14 @@ flutter:
     - assets/images/Treasure Hunters/Shooter Traps/Sprites/Cannon/Cannon Ball Explosion/
     - assets/images/Treasure Hunters/Shooter Traps/Sprites/Cannon/Cannon Ball Destroyed/
     - assets/images/Treasure Hunters/Shooter Traps/Sprites/Cannon/Cannon Ball Idle/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Seashell/Seashell Bite/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Seashell/Seashell Destroyed/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Seashell/Seashell Fire/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Seashell/Seashell Hit/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Seashell/Seashell Idle/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Seashell/Seashell Opening/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Seashell/Pearl Destroyed/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Seashell/Pearl Idle/
     - assets/images/hud/
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -13,6 +13,7 @@ void main() async {
   runApp(
     // Wrapping in MaterialApp ensures your UI/UX implementations have the proper styling context
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(body: GameWidget(game: game)),
     ),
   );

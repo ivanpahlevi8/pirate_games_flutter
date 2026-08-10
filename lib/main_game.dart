@@ -50,6 +50,13 @@ class MainGame extends FlameGame
     // handle joystick input
     _handleJoyStick();
 
+    // update camera position
+    if (player.x >= (400)) {
+      cam!.viewfinder.position = Vector2(player.x, 300);
+    } else {
+      cam!.viewfinder.position = Vector2(20 * 20, 300);
+    }
+
     super.update(dt);
   }
 

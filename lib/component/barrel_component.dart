@@ -16,7 +16,7 @@ class BarrelComponent extends SpriteAnimationGroupComponent
   final Vector2 inputSize;
 
   BarrelComponent({required this.inputPosition, required this.inputSize})
-    : super(position: inputPosition, size: inputSize);
+      : super(position: inputPosition, size: inputSize);
 
   // create animation for each state
   late SpriteAnimation idleAnimation;
@@ -88,20 +88,16 @@ class BarrelComponent extends SpriteAnimationGroupComponent
     if (other is MainPlayer) {
       if (!isStillOnHit && other.isAttack && numberOfHit > 0) {
         current = BarrelState.hit;
-        print("On main loop");
 
         if (!changeToIdleState) {
           changeToIdleState = true;
 
           Future.delayed(Duration(milliseconds: 250), () {
-            print("On future function inside main loop");
             current = BarrelState.idle;
 
             isStillOnHit = false;
 
             numberOfHit -= 1;
-
-            print("Check on number hit : ${numberOfHit}");
 
             changeToIdleState = false;
 

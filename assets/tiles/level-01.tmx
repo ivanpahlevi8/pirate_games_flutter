@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="150" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="27">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="150" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="29">
  <tileset firstgid="1" source="IslandTerrain.tsx"/>
  <layer id="1" name="Tile Layer 1" width="150" height="23">
   <data encoding="csv">
@@ -49,9 +49,10 @@
   <object id="17" type="rightPalmTree" x="1058.33" y="614" width="96" height="96"/>
   <object id="18" type="regularPalmTree" x="319" y="513" width="96" height="96"/>
   <object id="19" type="regularPalmTree" x="480" y="514" width="96" height="96"/>
-  <object id="20" type="leftPalmTree" x="750.667" y="534.667" width="96" height="96"/>
+  <object id="20" type="leftPalmTree" x="766.667" y="542.667" width="96" height="96"/>
   <object id="21" type="regularPalmTree" x="256" y="193.333" width="96" height="96"/>
   <object id="22" type="regularPalmTree" x="416" y="320" width="96" height="96"/>
   <object id="25" type="cannon" x="1152" y="322" width="62.6667" height="62.6667"/>
+  <object id="27" type="Seashell" x="1598.67" y="544" width="65.3333" height="65.3333"/>
  </objectgroup>
 </map>

@@ -115,6 +115,12 @@ class MainPlayer extends SpriteAnimationGroupComponent
 
     _handleJump(dt);
 
+    if (isAttack && current == playerState.IdleAttack1) {
+      if (animationTickers?[playerState.IdleAttack1]?.done() == true) {
+        isAttack = false; // Free the player to move again!
+      }
+    }
+
     // update palyer state
     _handlePlayerState();
 
@@ -144,7 +150,7 @@ class MainPlayer extends SpriteAnimationGroupComponent
       "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/01-Idle/Idle 05.png",
     ];
 
-    playerIdleAnimation = await _createPlayerAnimation(idleAnimationList);
+    playerIdleAnimation = await _createPlayerAnimation(idleAnimationList, true);
 
     // create image list for run animation
     List<String> runAnimationList = [
@@ -156,7 +162,7 @@ class MainPlayer extends SpriteAnimationGroupComponent
       "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/02-Run/Run 06.png",
     ];
 
-    playerRunAnimation = await _createPlayerAnimation(runAnimationList);
+    playerRunAnimation = await _createPlayerAnimation(runAnimationList, true);
 
     // create image list for jump animation
     List<String> jumpAnimationList = [
@@ -165,14 +171,14 @@ class MainPlayer extends SpriteAnimationGroupComponent
       "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/03-Jump/Jump 03.png",
     ];
 
-    playerJumpAnimation = await _createPlayerAnimation(jumpAnimationList);
+    playerJumpAnimation = await _createPlayerAnimation(jumpAnimationList, true);
 
     // create image list for fall animation
     List<String> fallAnimationList = [
       "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/04-Fall/Fall 01.png",
     ];
 
-    playerFallAnimation = await _createPlayerAnimation(fallAnimationList);
+    playerFallAnimation = await _createPlayerAnimation(fallAnimationList, true);
 
     // craete image list for idle sword animation
     List<String> idleSwordAnimationList = [
@@ -183,9 +189,8 @@ class MainPlayer extends SpriteAnimationGroupComponent
       "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/09-Idle Sword/Idle Sword 05.png",
     ];
 
-    playerIdleSwordAnimation = await _createPlayerAnimation(
-      idleSwordAnimationList,
-    );
+    playerIdleSwordAnimation =
+        await _createPlayerAnimation(idleSwordAnimationList, true);
 
     // create image list for run sword animation
     List<String> runSwordAnimationList = [
@@ -197,9 +202,8 @@ class MainPlayer extends SpriteAnimationGroupComponent
       "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/10-Run Sword/Run Sword 06.png",
     ];
 
-    playerRunSwordAnimation = await _createPlayerAnimation(
-      runSwordAnimationList,
-    );
+    playerRunSwordAnimation =
+        await _createPlayerAnimation(runSwordAnimationList, true);
 
     // create image list for jump sword animation
     List<String> jumpSwordAnimationList = [
@@ -208,18 +212,16 @@ class MainPlayer extends SpriteAnimationGroupComponent
       "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/11-Jump Sword/Jump Sword 03.png",
     ];
 
-    playerJumpSwordAnimation = await _createPlayerAnimation(
-      jumpSwordAnimationList,
-    );
+    playerJumpSwordAnimation =
+        await _createPlayerAnimation(jumpSwordAnimationList, true);
 
     // crreate image list for fall sword animation
     List<String> fallSwordAnimationList = [
       "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/12-Fall Sword/Fall Sword 01.png",
     ];
 
-    playerFallSwordAnimation = await _createPlayerAnimation(
-      fallSwordAnimationList,
-    );
+    playerFallSwordAnimation =
+        await _createPlayerAnimation(fallSwordAnimationList, true);
 
     // create image list for idle attack 1
     List<String> idleAttack1AnimationList = [
@@ -228,9 +230,8 @@ class MainPlayer extends SpriteAnimationGroupComponent
       "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/15-Attack 1/Attack 1 03.png",
     ];
 
-    playerIdleAttack1Animation = await _createPlayerAnimation(
-      idleAttack1AnimationList,
-    );
+    playerIdleAttack1Animation =
+        await _createPlayerAnimation(idleAttack1AnimationList, false);
 
     animations = {
       playerState.Idle: playerIdleAnimation,
@@ -264,11 +265,6 @@ class MainPlayer extends SpriteAnimationGroupComponent
     if (isAttack) {
       playerDirectionMove = 0;
       current = playerState.IdleAttack1;
-
-      Future.delayed(Duration(milliseconds: 200), () {
-        isAttack = false;
-      });
-
       return;
     }
 
@@ -302,7 +298,8 @@ class MainPlayer extends SpriteAnimationGroupComponent
     }
   }
 
-  Future<SpriteAnimation> _createPlayerAnimation(List<String> imageUrl) async {
+  Future<SpriteAnimation> _createPlayerAnimation(
+      List<String> imageUrl, bool isLooping) async {
     // generate list of sprite
     final listOfSprites = imageUrl.map((path) {
       // 💡 Crucial: Pull directly from your preloaded game instance cache!
@@ -311,7 +308,8 @@ class MainPlayer extends SpriteAnimationGroupComponent
     }).toList();
 
     // generate sprite animation
-    return SpriteAnimation.spriteList(listOfSprites, stepTime: 0.05);
+    return SpriteAnimation.spriteList(listOfSprites,
+        stepTime: 0.05, loop: isLooping);
   }
 
   // function to handle collision with
@@ -327,8 +325,7 @@ class MainPlayer extends SpriteAnimationGroupComponent
           double _playerLeft = platform.position.x - width;
 
           // collision happen on right, update player position
-          position.x =
-              (_playerLeft + width / 2) +
+          position.x = (_playerLeft + width / 2) +
               playerCustomHitbox.offsetX -
               (isSwordAttach ? 20 : 0);
 
@@ -339,8 +336,7 @@ class MainPlayer extends SpriteAnimationGroupComponent
           double _playerRight = platform.position.x + platform.width + width;
 
           // adjust x position
-          position.x =
-              (_playerRight - width / 2) -
+          position.x = (_playerRight - width / 2) -
               playerCustomHitbox.offsetX -
               (isSwordAttach ? 20 : 0);
 
@@ -358,8 +354,7 @@ class MainPlayer extends SpriteAnimationGroupComponent
 
       // check collision on vertical
       if (isCollide && velocity.y > 0) {
-        position.y =
-            platform.y -
+        position.y = platform.y -
             playerCustomHitbox.height -
             playerCustomHitbox.offsetY +
             (height / 2);
@@ -379,16 +374,20 @@ class MainPlayer extends SpriteAnimationGroupComponent
   // function to handle jump
   void _handleJump(double dt) {
     if (isJump) {
-      velocity.y = -9.8;
+      velocity.y = -8;
 
-      position.y += velocity.y;
+      position.y += velocity.y * dt;
     }
   }
 
   // function to handle attack
   void handleAttack() {
-    if (!isAttack) {
+    if (!isAttack && isSwordAttach) {
       isAttack = true;
+      playerDirectionMove = 0;
+      current = playerState.IdleAttack1;
+
+      animationTickers?[playerState.IdleAttack1]?.reset();
     }
   }
 }

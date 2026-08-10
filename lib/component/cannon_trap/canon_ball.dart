@@ -21,7 +21,7 @@ class CanonBall extends SpriteAnimationGroupComponent
   late SpriteAnimation canonBallDestroyedAnimation;
 
   // canon ball trajectory, it moves to the left and applied with gravuty
-  Vector2 velocity = Vector2(-7, 0);
+  Vector2 velocity = Vector2(-6, 0);
   Vector2 accelaration = Vector2(-5, 9.8);
 
   // collide parameters

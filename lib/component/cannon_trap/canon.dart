@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:pirate_action/component/canon_ball.dart';
-import 'package:pirate_action/component/canon_fire_component.dart';
+import 'package:pirate_action/component/cannon_trap/canon_ball.dart';
+import 'package:pirate_action/component/cannon_trap/canon_fire_component.dart';
 import 'package:pirate_action/component/main_player.dart';
 import 'package:pirate_action/core/custom_hitbox.dart';
 import 'package:pirate_action/main_game.dart';
@@ -20,7 +20,7 @@ class Canon extends SpriteAnimationGroupComponent
   bool isHit = false;
 
   Canon({required this.inputPosition, required this.inputSize})
-    : super(position: inputPosition, size: inputSize);
+      : super(position: inputPosition, size: inputSize);
 
   // create each state for canon
   late SpriteAnimation canonIdleAnimation;
