@@ -9,6 +9,10 @@
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "ShipTerrain.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "level-01.tmx": {
             "scale": 0.75,
             "selectedLayer": 1,
@@ -18,14 +22,15 @@
             }
         }
     },
-    "last.imagePath": "E:/Ivan Data/Second/Coding/FlutterLearn/pirate_action/assets/images/Treasure Hunters/Palm Tree Island/Sprites/Terrain",
+    "last.imagePath": "E:/Ivan Data/Second/Coding/FlutterLearn/pirate_action/assets/images/Treasure Hunters/Pirate Ship/Sprites/Tilesets",
     "map.lastUsedFormat": "tmx",
     "openFiles": [
         "level-01.tmx"
     ],
     "project": "pirates.tiled-project",
-    "property.type": "bool",
+    "property.type": "int",
     "recentFiles": [
+        "ShipTerrain.tsx",
         "level-01.tmx",
         "IslandTerrain.tsx"
     ],

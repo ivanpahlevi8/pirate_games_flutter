@@ -64,6 +64,7 @@ flutter:
     - assets/images/
     - assets/tiles/
     - assets/images/Treasure Hunters/Palm Tree Island/Sprites/Terrain/
+    - assets/images/Treasure Hunters/Pirate Ship/Sprites/Tilesets/
     - assets/images/Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/01-Idle/
     - assets/images/Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/02-Run/
     - assets/images/Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/03-Jump/
@@ -94,6 +95,22 @@ flutter:
     - assets/images/Treasure Hunters/Shooter Traps/Sprites/Seashell/Seashell Opening/
     - assets/images/Treasure Hunters/Shooter Traps/Sprites/Seashell/Pearl Destroyed/
     - assets/images/Treasure Hunters/Shooter Traps/Sprites/Seashell/Pearl Idle/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Totems/Head 1/Attack 1/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Totems/Head 1/Attack 2/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Totems/Head 1/Destroyed/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Totems/Head 1/Hit 1/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Totems/Head 1/Hit 2/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Totems/Head 1/Idle 1/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Totems/Head 1/Idle 2/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Totems/Head 2/Attack 1/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Totems/Head 2/Attack 2/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Totems/Head 2/Destroyed/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Totems/Head 2/Hit 1/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Totems/Head 2/Hit 2/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Totems/Head 2/Idle 1/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Totems/Head 2/Idle 2/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Totems/Wood Spike/Destroyed/
+    - assets/images/Treasure Hunters/Shooter Traps/Sprites/Totems/Wood Spike/Idle/
     - assets/images/hud/
 
   # An image asset can refer to one or more resolution-specific "variants", see

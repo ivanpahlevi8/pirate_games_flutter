@@ -5,6 +5,7 @@ import 'package:flame_tiled/flame_tiled.dart';
 import 'package:pirate_action/component/barrel_component.dart';
 import 'package:pirate_action/component/cannon_trap/canon.dart';
 import 'package:pirate_action/component/collision_block.dart';
+import 'package:pirate_action/component/head_trap/tottem_head.dart';
 import 'package:pirate_action/component/left_palm_tree.dart';
 import 'package:pirate_action/component/main_player.dart';
 import 'package:pirate_action/component/regular_palm_tree.dart';
@@ -203,6 +204,23 @@ class Level extends World with HasGameReference<MainGame> {
                 Seashell(inputPosition: getPosition, inputSize: getSize);
 
             add(seashell);
+
+            break;
+          case "tottemHead":
+            // get position
+            Vector2 getPosition = object.position;
+
+            // get properties
+            int getHeadOption =
+                object.properties.getValue<int>("headOption") ?? 1;
+            int getShapeOption =
+                object.properties.getValue<int>("shapeOption") ?? 1;
+
+            // add tottem head
+            add(TottemHead(
+                inputPosition: getPosition,
+                headOption: getHeadOption,
+                shapeOption: getShapeOption));
 
             break;
         }
