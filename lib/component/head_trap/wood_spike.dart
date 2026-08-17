@@ -19,7 +19,7 @@ class WoodSpike extends SpriteAnimationGroupComponent
   late SpriteAnimation woodDestroyedAnimation;
 
   // variable for horizontal movement
-  Vector2 accelerate = Vector2(-10, 0);
+  Vector2 accelerate = Vector2(-15, 0);
   Vector2 velocity = Vector2(-50, 0);
 
   @override
@@ -62,7 +62,8 @@ class WoodSpike extends SpriteAnimationGroupComponent
         accelerate.x * dt; // kecepatan adalah integral dari percepatan (a . dt)
 
     // create movement
-    double movementX = velocity.x; // perpindahan adalah integral dari kecepatan
+    double movementX =
+        velocity.x * dt; // perpindahan adalah integral dari kecepatan
 
     // update new position
     position.x += movementX;

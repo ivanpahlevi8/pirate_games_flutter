@@ -111,6 +111,19 @@ flutter:
     - assets/images/Treasure Hunters/Shooter Traps/Sprites/Totems/Head 2/Idle 2/
     - assets/images/Treasure Hunters/Shooter Traps/Sprites/Totems/Wood Spike/Destroyed/
     - assets/images/Treasure Hunters/Shooter Traps/Sprites/Totems/Wood Spike/Idle/
+    - assets/images/Treasure Hunters/Pirate Treasure/Sprites/Blue Diamond/
+    - assets/images/Treasure Hunters/Pirate Treasure/Sprites/Blue Potion/
+    - assets/images/Treasure Hunters/Pirate Treasure/Sprites/Coin Effect/
+    - assets/images/Treasure Hunters/Pirate Treasure/Sprites/Diamond Effect/
+    - assets/images/Treasure Hunters/Pirate Treasure/Sprites/Gold Coin/
+    - assets/images/Treasure Hunters/Pirate Treasure/Sprites/Golden Skull/
+    - assets/images/Treasure Hunters/Pirate Treasure/Sprites/Green Bottle/
+    - assets/images/Treasure Hunters/Pirate Treasure/Sprites/Green Diamond/
+    - assets/images/Treasure Hunters/Pirate Treasure/Sprites/Potion Effect/
+    - assets/images/Treasure Hunters/Pirate Treasure/Sprites/Red Diamond/
+    - assets/images/Treasure Hunters/Pirate Treasure/Sprites/Red Potion/
+    - assets/images/Treasure Hunters/Pirate Treasure/Sprites/Silver Coin/
+    - assets/images/Treasure Hunters/Pirate Treasure/Sprites/Skull Effect/
     - assets/images/hud/
 
   # An image asset can refer to one or more resolution-specific "variants", see

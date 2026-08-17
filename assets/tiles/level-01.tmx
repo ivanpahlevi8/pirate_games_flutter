@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="150" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="32">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="150" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="48">
  <tileset firstgid="1" source="IslandTerrain.tsx"/>
  <tileset firstgid="86" source="ShipTerrain.tsx"/>
  <layer id="1" name="Tile Layer 1" width="150" height="23">
@@ -31,7 +31,7 @@
  </layer>
  <objectgroup id="3" name="Collisions">
   <object id="1" x="0.666667" y="0.666667" width="32.6667" height="734.667"/>
-  <object id="2" x="34" y="608.667" width="637.333" height="127.333"/>
+  <object id="2" x="30" y="608.667" width="648.333" height="127.333"/>
   <object id="4" type="Platform" x="255.5" y="287.5" width="97" height="32.5"/>
   <object id="5" type="Platform" x="415.5" y="416.75" width="97" height="32.5"/>
   <object id="6" type="Platform" x="415.5" y="416.75" width="97" height="32.5"/>
@@ -65,5 +65,57 @@
     <property name="shapeOption" type="int" value="1"/>
    </properties>
   </object>
+  <object id="32" type="Diamond" x="191" y="576" width="32" height="32">
+   <properties>
+    <property name="color" value="Blue"/>
+   </properties>
+  </object>
+  <object id="33" type="Diamond" x="256" y="576" width="32" height="32">
+   <properties>
+    <property name="color" value="Red"/>
+   </properties>
+  </object>
+  <object id="34" type="Diamond" x="320" y="576" width="32" height="32">
+   <properties>
+    <property name="color" value="Blue"/>
+   </properties>
+  </object>
+  <object id="35" type="Diamond" x="385" y="576" width="32" height="32">
+   <properties>
+    <property name="color" value="Red"/>
+   </properties>
+  </object>
+  <object id="36" type="Diamond" x="449" y="577" width="32" height="32">
+   <properties>
+    <property name="color" value="Green"/>
+   </properties>
+  </object>
+  <object id="37" type="Diamond" x="513" y="577" width="32" height="32">
+   <properties>
+    <property name="color" value="Red"/>
+   </properties>
+  </object>
+  <object id="38" type="Coin" x="673" y="481" width="32" height="32">
+   <properties>
+    <property name="color" value="Gold"/>
+   </properties>
+  </object>
+  <object id="39" type="Coin" x="735" y="481" width="32" height="32">
+   <properties>
+    <property name="color" value="Gold"/>
+   </properties>
+  </object>
+  <object id="40" type="Coin" x="705" y="481" width="32" height="32">
+   <properties>
+    <property name="color" value="Silver"/>
+   </properties>
+  </object>
+  <object id="41" type="Barrel" x="1762" y="416" width="64" height="64"/>
+  <object id="42" type="Barrel" x="2433" y="542" width="64" height="64"/>
+  <object id="43" type="Barrel" x="2271" y="543" width="64" height="64"/>
+  <object id="44" type="regularPalmTree" x="1250" y="512" width="96" height="96"/>
+  <object id="45" type="regularPalmTree" x="1472" y="512" width="96" height="96"/>
+  <object id="46" type="regularPalmTree" x="1790" y="384" width="96" height="96"/>
+  <object id="47" type="leftPalmTree" x="1885" y="513" width="96" height="96"/>
  </objectgroup>
 </map>

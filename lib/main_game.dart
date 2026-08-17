@@ -5,6 +5,7 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pirate_action/component/level.dart';
 import 'package:pirate_action/component/main_player.dart';
@@ -23,6 +24,41 @@ class MainGame extends FlameGame
   late HudButtonComponent jumpButtonComponent;
 
   late HudButtonComponent attackButtonComponent;
+
+  // create collected diamon
+  final ValueNotifier<int> collectedBlueDiamond = ValueNotifier(0);
+  final ValueNotifier<int> collectedRedDiamond = ValueNotifier(0);
+  final ValueNotifier<int> collectedGreenDiamond = ValueNotifier(0);
+
+  // function to update collected diamon
+  void updateCollectedDiamond(String diamonColor) {
+    switch (diamonColor) {
+      case "Red":
+        collectedRedDiamond.value++;
+        break;
+      case "Blue":
+        collectedBlueDiamond.value++;
+        break;
+      case "Green":
+        collectedGreenDiamond.value++;
+        break;
+    }
+  }
+
+  // create collected coin
+  final ValueNotifier<int> collectedGoldCoin = ValueNotifier(0);
+  final ValueNotifier<int> collectedSilverCoin = ValueNotifier(0);
+
+  void updateCollectedCoin(String coinColor) {
+    switch (coinColor) {
+      case "Gold":
+        collectedGoldCoin.value++;
+        break;
+      case "Silver":
+        collectedSilverCoin.value++;
+        break;
+    }
+  }
 
   @override
   Color backgroundColor() => const Color(0xFF211F30);
@@ -51,10 +87,10 @@ class MainGame extends FlameGame
     _handleJoyStick();
 
     // update camera position
-    if (player.x >= (400)) {
+    if (player.x >= (750)) {
       cam!.viewfinder.position = Vector2(player.x, 300);
     } else {
-      cam!.viewfinder.position = Vector2(20 * 20, 300);
+      cam!.viewfinder.position = Vector2(750, 300);
     }
 
     super.update(dt);

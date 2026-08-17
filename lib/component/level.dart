@@ -12,6 +12,7 @@ import 'package:pirate_action/component/regular_palm_tree.dart';
 import 'package:pirate_action/component/right_plam_tree.dart';
 import 'package:pirate_action/component/seashell_trap/seashell.dart';
 import 'package:pirate_action/component/sword_component.dart';
+import 'package:pirate_action/component/treasure/diamond_treasure.dart';
 import 'package:pirate_action/main_game.dart';
 
 class Level extends World with HasGameReference<MainGame> {
@@ -221,6 +222,22 @@ class Level extends World with HasGameReference<MainGame> {
                 inputPosition: getPosition,
                 headOption: getHeadOption,
                 shapeOption: getShapeOption));
+
+            break;
+          case "Diamond":
+            // check case for diamond
+            // get position
+            Vector2 getPosition = object.position;
+
+            // get object property
+            String getDiamondColor =
+                object.properties.getValue<String>("color") ?? "Blue";
+
+            // create diamond object
+            DiamondTreasure diamond = DiamondTreasure(
+                inputPosition: getPosition, diamonColor: getDiamondColor);
+
+            add(diamond);
 
             break;
         }

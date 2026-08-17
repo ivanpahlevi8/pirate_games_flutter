@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:pirate_action/component/main_player.dart';
+import 'package:pirate_action/component/treasure/coin_treasure.dart';
 import 'package:pirate_action/core/custom_hitbox.dart';
 import 'package:pirate_action/main_game.dart';
 
@@ -29,12 +30,7 @@ class BarrelComponent extends SpriteAnimationGroupComponent
   bool changeToIdleState = false;
 
   // create custom hitbox
-  CustomHitbox customHitbox = CustomHitbox(
-    offsetX: 6,
-    offsetY: 6,
-    width: 16,
-    height: 16,
-  );
+  late CustomHitbox customHitbox;
 
   @override
   FutureOr<void> onLoad() {
@@ -72,6 +68,13 @@ class BarrelComponent extends SpriteAnimationGroupComponent
     // set current animation
     current = BarrelState.idle;
 
+    customHitbox = CustomHitbox(
+      offsetX: 0,
+      offsetY: 0,
+      width: inputSize.x,
+      height: inputSize.y,
+    );
+
     // add hitbox
     add(
       RectangleHitbox(
@@ -106,6 +109,25 @@ class BarrelComponent extends SpriteAnimationGroupComponent
 
               Future.delayed(Duration(milliseconds: 300), () {
                 removeFromParent();
+
+                // emit gold from destroyed barrel,
+                // set x position to emit, based on player position
+                double xOffsetGoldEmit = 0.0;
+
+                if (game.player.position.x <= position.x) {
+                  // maje it appear on right
+                  xOffsetGoldEmit = size.x;
+                }
+                if (game.player.position.x >= position.x) {
+                  // make it appear on left
+                  xOffsetGoldEmit = -48;
+                }
+
+                parent!.add(CoinTreasure(
+                    inputPosition: Vector2(
+                        inputPosition.x + 16.0 + xOffsetGoldEmit,
+                        inputPosition.y + 32.0),
+                    coinColor: "Gold"));
               });
             }
           });

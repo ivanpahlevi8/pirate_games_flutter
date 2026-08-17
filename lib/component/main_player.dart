@@ -374,7 +374,7 @@ class MainPlayer extends SpriteAnimationGroupComponent
   // function to handle jump
   void _handleJump(double dt) {
     if (isJump) {
-      velocity.y = -8;
+      velocity.y = -6;
 
       position.y += velocity.y * dt;
     }
