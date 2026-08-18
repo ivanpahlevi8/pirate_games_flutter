@@ -185,11 +185,9 @@ class MainGame extends FlameGame
         size: Vector2(96, 96),
       ),
       onPressed: () {
-        player.isAttack = true;
+        player.attackButtonClicke();
       },
-      onReleased: () {
-        player.isAttack = true;
-      },
+      onReleased: () {},
       margin: const EdgeInsets.only(right: 100, bottom: 1),
       priority: 100,
     );
@@ -202,12 +200,17 @@ class MainGame extends FlameGame
       case JoystickDirection.upLeft:
       case JoystickDirection.downLeft:
       case JoystickDirection.left:
-        player.playerDirectionMove = -1;
+        if (!player.isAttack) {
+          player.playerDirectionMove = -1;
+        }
+
         break;
       case JoystickDirection.upRight:
       case JoystickDirection.downRight:
       case JoystickDirection.right:
-        player.playerDirectionMove = 1;
+        if (!player.isAttack) {
+          player.playerDirectionMove = 1;
+        }
         break;
       case JoystickDirection.up:
       default:

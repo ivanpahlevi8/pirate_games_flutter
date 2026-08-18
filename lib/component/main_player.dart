@@ -115,7 +115,7 @@ class MainPlayer extends SpriteAnimationGroupComponent
 
     _handleJump(dt);
 
-    if (isAttack && current == playerState.IdleAttack1) {
+    if (isAttack && current == playerState.IdleAttack1 && isSwordAttach) {
       if (animationTickers?[playerState.IdleAttack1]?.done() == true) {
         isAttack = false; // Free the player to move again!
       }
@@ -262,7 +262,7 @@ class MainPlayer extends SpriteAnimationGroupComponent
       scale.x = 1.0;
     }
 
-    if (isAttack) {
+    if (isAttack && isSwordAttach) {
       playerDirectionMove = 0;
       current = playerState.IdleAttack1;
       return;
@@ -388,6 +388,13 @@ class MainPlayer extends SpriteAnimationGroupComponent
       current = playerState.IdleAttack1;
 
       animationTickers?[playerState.IdleAttack1]?.reset();
+    }
+  }
+
+  // function when attack button clicked
+  void attackButtonClicke() {
+    if (isSwordAttach) {
+      isAttack = true;
     }
   }
 }
