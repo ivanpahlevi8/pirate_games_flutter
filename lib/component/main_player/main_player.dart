@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:pirate_action/component/collision_block.dart';
+import 'package:pirate_action/component/main_player/dust_movement.dart';
 import 'package:pirate_action/component/sword_component.dart';
 import 'package:pirate_action/core/custom_hitbox.dart';
 import 'package:pirate_action/core/player_platform_collision.dart';
@@ -64,6 +65,10 @@ class MainPlayer extends SpriteAnimationGroupComponent
   // stete for  sword atachment
   bool isSwordAttach = false;
 
+  // dust variable
+  late Vector2 spawnDustPosition;
+  double dustInterval = 0.0;
+
   @override
   FutureOr<void> onLoad() async {
     size = Vector2(128, 128);
@@ -97,6 +102,15 @@ class MainPlayer extends SpriteAnimationGroupComponent
      * drawn from the top left of the player area
      */
 
+    // load dust
+    spawnDustPosition = Vector2(
+        position.x - (size.x / 2) + playerCustomHitbox.offsetX,
+        position.y +
+            playerCustomHitbox.offsetY +
+            (playerCustomHitbox.height / 2) -
+            30 // 20 is height of the dust
+        );
+
     return super.onLoad();
   }
 
@@ -113,7 +127,7 @@ class MainPlayer extends SpriteAnimationGroupComponent
 
     _handleVerticalCollisionPlatform();
 
-    _handleJump(dt);
+    //_handleJump(dt);
 
     if (isAttack && current == playerState.IdleAttack1 && isSwordAttach) {
       if (animationTickers?[playerState.IdleAttack1]?.done() == true) {
@@ -122,7 +136,16 @@ class MainPlayer extends SpriteAnimationGroupComponent
     }
 
     // update palyer state
-    _handlePlayerState();
+    _handlePlayerState(dt);
+
+    // keep update on spawn dust position based on player
+    spawnDustPosition = Vector2(
+        position.x - (size.x / 2) + playerCustomHitbox.offsetX,
+        position.y +
+            playerCustomHitbox.offsetY +
+            (playerCustomHitbox.height / 2) -
+            30 // 20 is height of the dust
+        );
 
     super.update(dt);
   }
@@ -255,11 +278,37 @@ class MainPlayer extends SpriteAnimationGroupComponent
   }
 
   // function to handle player state
-  void _handlePlayerState() {
+  void _handlePlayerState(double dt) {
     if (playerDirectionMove < 0) {
       scale.x = -1.0;
+
+      // update dust interval
+      dustInterval += dt;
+
+      // add dust
+      if (dustInterval >= 0.35 && velocity.y == 0) {
+        parent!.add(DustMovement(
+            inputPosition: spawnDustPosition,
+            initialState: "run",
+            scaleValue: -1.0));
+
+        dustInterval = 0.0;
+      }
     } else if (playerDirectionMove > 0) {
       scale.x = 1.0;
+
+      // update dust interval
+      dustInterval += dt;
+
+      // add dust
+      if (dustInterval >= 0.35 && velocity.y == 0) {
+        parent!.add(DustMovement(
+          inputPosition: spawnDustPosition,
+          initialState: "run",
+        ));
+
+        dustInterval = 0.0;
+      }
     }
 
     if (isAttack && isSwordAttach) {
@@ -360,6 +409,15 @@ class MainPlayer extends SpriteAnimationGroupComponent
             (height / 2);
 
         velocity.y = 0;
+
+        if (isJump) {
+          // set is jump to false
+          isJump = false;
+
+          // add fall dust
+          parent!.add(DustMovement(
+              inputPosition: spawnDustPosition, initialState: "fall"));
+        }
       }
     }
   }
@@ -395,6 +453,21 @@ class MainPlayer extends SpriteAnimationGroupComponent
   void attackButtonClicke() {
     if (isSwordAttach) {
       isAttack = true;
+    }
+  }
+
+  // function when jump button clicked
+  void jumpButtonClicked() {
+    if (!isJump) {
+      // set is jump true as once jump
+      isJump = true;
+
+      // set velocity upward
+      velocity.y = -6;
+
+      // add dust to parent
+      parent!.add(
+          DustMovement(inputPosition: spawnDustPosition, initialState: "jump"));
     }
   }
 }

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:pirate_action/component/main_player.dart';
+import 'package:pirate_action/component/main_player/main_player.dart';
 import 'package:pirate_action/main_game.dart';
 
 enum CoinState { idle, collected }

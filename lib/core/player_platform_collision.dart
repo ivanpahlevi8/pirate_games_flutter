@@ -1,5 +1,5 @@
 import 'package:pirate_action/component/collision_block.dart';
-import 'package:pirate_action/component/main_player.dart';
+import 'package:pirate_action/component/main_player/main_player.dart';
 
 bool checkCollisionPlayerWithPlatform(
   MainPlayer player,

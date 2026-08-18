@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:pirate_action/component/main_player.dart';
+import 'package:pirate_action/component/main_player/main_player.dart';
 import 'package:pirate_action/core/custom_hitbox.dart';
 import 'package:pirate_action/main_game.dart';
 
@@ -12,7 +12,7 @@ class SwordComponent extends SpriteAnimationComponent
   final Vector2 inputSize;
 
   SwordComponent({required this.inputPosition, required this.inputSize})
-    : super(position: inputPosition, size: inputSize);
+      : super(position: inputPosition, size: inputSize);
 
   // create hitbox
   CustomHitbox swordCustomHitbox = CustomHitbox(

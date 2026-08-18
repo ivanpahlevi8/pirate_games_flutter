@@ -8,7 +8,7 @@ import 'package:flame/input.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pirate_action/component/level.dart';
-import 'package:pirate_action/component/main_player.dart';
+import 'package:pirate_action/component/main_player/main_player.dart';
 
 class MainGame extends FlameGame
     with HasCollisionDetection, DragCallbacks, TapCallbacks {
@@ -161,11 +161,9 @@ class MainGame extends FlameGame
         size: Vector2(96, 182),
       ),
       onPressed: () {
-        player.isJump = true;
+        player.jumpButtonClicked();
       },
-      onReleased: () {
-        player.isJump = false;
-      },
+      onReleased: () {},
       margin: const EdgeInsets.only(right: 20, bottom: 10),
       priority: 100,
     );

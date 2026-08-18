@@ -7,7 +7,7 @@ import 'package:pirate_action/component/cannon_trap/canon.dart';
 import 'package:pirate_action/component/collision_block.dart';
 import 'package:pirate_action/component/head_trap/tottem_head.dart';
 import 'package:pirate_action/component/left_palm_tree.dart';
-import 'package:pirate_action/component/main_player.dart';
+import 'package:pirate_action/component/main_player/main_player.dart';
 import 'package:pirate_action/component/regular_palm_tree.dart';
 import 'package:pirate_action/component/right_plam_tree.dart';
 import 'package:pirate_action/component/seashell_trap/seashell.dart';
