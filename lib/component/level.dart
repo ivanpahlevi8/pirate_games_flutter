@@ -2,14 +2,16 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:pirate_action/component/backgrond_component/cloud_object.dart';
+import 'package:pirate_action/component/backgrond_component/water_reflect.dart';
 import 'package:pirate_action/component/barrel_component.dart';
 import 'package:pirate_action/component/cannon_trap/canon.dart';
 import 'package:pirate_action/component/collision_block.dart';
 import 'package:pirate_action/component/head_trap/tottem_head.dart';
-import 'package:pirate_action/component/left_palm_tree.dart';
+import 'package:pirate_action/component/backgrond_component/left_palm_tree.dart';
 import 'package:pirate_action/component/main_player/main_player.dart';
-import 'package:pirate_action/component/regular_palm_tree.dart';
-import 'package:pirate_action/component/right_plam_tree.dart';
+import 'package:pirate_action/component/backgrond_component/regular_palm_tree.dart';
+import 'package:pirate_action/component/backgrond_component/right_plam_tree.dart';
 import 'package:pirate_action/component/seashell_trap/seashell.dart';
 import 'package:pirate_action/component/sword_component.dart';
 import 'package:pirate_action/component/treasure/diamond_treasure.dart';
@@ -167,7 +169,7 @@ class Level extends World with HasGameReference<MainGame> {
             add(regularPalmTree);
 
             break;
-          case "rightPlamTree":
+          case "rightPalmTree":
             // get position
             Vector2 getPosition = object.position;
             Vector2 getSize = object.size;
@@ -179,6 +181,28 @@ class Level extends World with HasGameReference<MainGame> {
             );
 
             add(rightPalmTree);
+
+            break;
+          case "waterReflect":
+            // get position
+            Vector2 getPosition = object.position;
+            Vector2 getSize = object.size;
+
+            // get class
+            bool isBig = object.properties.getValue<bool>("isBig") ?? true;
+
+            add(WaterReflect(
+                inputPosition: getPosition,
+                inputSize: Vector2(96, 32),
+                isBig: isBig));
+
+            break;
+          case "smallCloud":
+            // get position
+            Vector2 getPosition = object.position;
+            Vector2 getSize = object.size;
+
+            add(CloudObject(inputPosition: getPosition, inputSize: getSize));
 
             break;
           case "cannon":

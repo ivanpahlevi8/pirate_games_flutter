@@ -7,7 +7,7 @@ class RegularPalmTree extends SpriteAnimationComponent
   final Vector2 inputSize;
 
   RegularPalmTree({required this.inputPosition, required this.inputSize})
-    : super(position: inputPosition, size: inputSize);
+      : super(position: inputPosition, size: inputSize);
 
   @override
   onLoad() {

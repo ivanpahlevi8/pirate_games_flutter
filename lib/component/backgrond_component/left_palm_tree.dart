@@ -9,7 +9,7 @@ class LeftPalmTree extends SpriteAnimationComponent
   final Vector2 inputSize;
 
   LeftPalmTree({required this.inputPosition, required this.inputSize})
-    : super(position: inputPosition, size: inputSize);
+      : super(position: inputPosition, size: inputSize);
 
   @override
   FutureOr<void> onLoad() {

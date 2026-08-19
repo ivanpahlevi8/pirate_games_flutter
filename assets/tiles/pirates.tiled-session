@@ -28,7 +28,7 @@
         "level-01.tmx"
     ],
     "project": "pirates.tiled-project",
-    "property.type": "string",
+    "property.type": "bool",
     "recentFiles": [
         "ShipTerrain.tsx",
         "level-01.tmx",

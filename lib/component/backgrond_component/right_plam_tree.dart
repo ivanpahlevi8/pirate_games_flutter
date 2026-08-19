@@ -9,7 +9,7 @@ class RightPlamTree extends SpriteAnimationComponent
   final Vector2 inputSize;
 
   RightPlamTree({required this.inputPosition, required this.inputSize})
-    : super(position: inputPosition, size: inputSize);
+      : super(position: inputPosition, size: inputSize);
 
   @override
   FutureOr<void> onLoad() {

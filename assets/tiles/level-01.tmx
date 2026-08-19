@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="150" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="48">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="150" height="23" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="70">
  <tileset firstgid="1" source="IslandTerrain.tsx"/>
  <tileset firstgid="86" source="ShipTerrain.tsx"/>
  <layer id="1" name="Tile Layer 1" width="150" height="23">
@@ -51,7 +51,7 @@
   <object id="12" type="Sword" x="929.333" y="416" width="58.6667" height="60"/>
   <object id="14" type="Barrel" x="1378.66" y="546.667" width="64" height="64"/>
   <object id="16" type="leftPalmTree" x="36" y="354" width="96" height="96"/>
-  <object id="17" type="rightPalmTree" x="1058.33" y="614" width="96" height="96"/>
+  <object id="17" type="rightPalmTree" x="1057.66" y="578" width="96" height="96"/>
   <object id="18" type="regularPalmTree" x="319" y="513" width="96" height="96"/>
   <object id="19" type="regularPalmTree" x="480" y="514" width="96" height="96"/>
   <object id="20" type="leftPalmTree" x="766.667" y="542.667" width="96" height="96"/>
@@ -117,5 +117,55 @@
   <object id="45" type="regularPalmTree" x="1472" y="512" width="96" height="96"/>
   <object id="46" type="regularPalmTree" x="1790" y="384" width="96" height="96"/>
   <object id="47" type="leftPalmTree" x="1885" y="513" width="96" height="96"/>
+  <object id="48" type="rightPalmTree" x="1601.33" y="484" width="96" height="96"/>
+  <object id="49" type="rightPalmTree" x="1889.33" y="577" width="96" height="96"/>
+  <object id="50" type="waterReflect" x="34" y="511" width="192" height="32">
+   <properties>
+    <property name="isBig" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="54" type="waterReflect" x="254.667" y="512" width="192" height="32">
+   <properties>
+    <property name="isBig" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="55" type="waterReflect" x="481" y="512" width="192" height="32">
+   <properties>
+    <property name="isBig" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="56" type="waterReflect" x="800.667" y="511.333" width="192" height="32">
+   <properties>
+    <property name="isBig" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="57" type="waterReflect" x="1025.33" y="512.667" width="192" height="32">
+   <properties>
+    <property name="isBig" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="58" type="waterReflect" x="1249.33" y="513.333" width="192" height="32">
+   <properties>
+    <property name="isBig" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="59" type="waterReflect" x="1472" y="512.667" width="192" height="32">
+   <properties>
+    <property name="isBig" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="60" type="waterReflect" x="1920.33" y="512.333" width="192" height="32">
+   <properties>
+    <property name="isBig" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="61" type="smallCloud" x="784" y="264" width="128" height="32"/>
+  <object id="63" type="smallCloud" x="527.333" y="165.333" width="128" height="32"/>
+  <object id="64" type="smallCloud" x="80" y="87" width="128" height="32"/>
+  <object id="65" type="smallCloud" x="696.333" y="60.3333" width="128" height="32"/>
+  <object id="66" type="smallCloud" x="990.667" y="112" width="128" height="32"/>
+  <object id="67" type="smallCloud" x="1094.67" y="220" width="128" height="32"/>
+  <object id="68" type="smallCloud" x="568" y="344" width="128" height="32"/>
+  <object id="69" type="smallCloud" x="350.667" y="61.3333" width="128" height="32"/>
  </objectgroup>
 </map>
