@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:pirate_action/component/collision_block.dart';
+import 'package:pirate_action/component/main_player/main_player.dart';
 import 'package:pirate_action/main_game.dart';
 
 // create enum for state of canon ball
@@ -91,7 +92,7 @@ class CanonBall extends SpriteAnimationGroupComponent
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     // check collision with collision block
-    if (other is CollisionBlock && !isBallCollide) {
+    if ((other is CollisionBlock || other is MainPlayer) && !isBallCollide) {
       // update velocity to ze
       // set ball to freeze
       isBallCollide = true;

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:pirate_action/component/collision_block.dart';
+import 'package:pirate_action/component/main_player/main_player.dart';
 import 'package:pirate_action/main_game.dart';
 
 enum WoodSpikeState { idle, destroyed }
@@ -74,7 +75,7 @@ class WoodSpike extends SpriteAnimationGroupComponent
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     // handle collide with collision block
-    if (other is CollisionBlock) {
+    if (other is CollisionBlock || other is MainPlayer) {
       // update velocity and acclerate to 0
       velocity = Vector2.zero();
       accelerate = Vector2.zero();

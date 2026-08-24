@@ -3,6 +3,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:pirate_action/component/overlays/coin_collected_overlay.dart';
 import 'package:pirate_action/component/overlays/diamond_collected_overlay.dart';
+import 'package:pirate_action/component/overlays/health_overlay.dart';
 import 'package:pirate_action/main_game.dart';
 
 void main() async {
@@ -109,8 +110,15 @@ void main() async {
               ),
             );
           },
+          "Health": (BuildContext context, MainGame game) {
+            return SafeArea(
+              child: Align(
+                  alignment: Alignment.topRight,
+                  child: HealtOverlay(healthValue: game.healthValue)),
+            );
+          },
         },
-        initialActiveOverlays: const ["Diamond", "Coin"],
+        initialActiveOverlays: const ["Diamond", "Coin", "Health"],
       )),
     ),
   );

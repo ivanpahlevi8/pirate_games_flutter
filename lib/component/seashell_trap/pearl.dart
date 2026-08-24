@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:pirate_action/component/collision_block.dart';
+import 'package:pirate_action/component/main_player/main_player.dart';
 import 'package:pirate_action/main_game.dart';
 
 enum PearlState { idle, destroyed }
@@ -65,7 +66,7 @@ class Pearl extends SpriteAnimationGroupComponent
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     // check collision with collision block
-    if (other is CollisionBlock) {
+    if (other is CollisionBlock || other is MainPlayer) {
       // make pearl movement to zero
       velocity = Vector2.zero();
       accelerate = Vector2.zero();

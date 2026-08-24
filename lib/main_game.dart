@@ -30,6 +30,9 @@ class MainGame extends FlameGame
   final ValueNotifier<int> collectedRedDiamond = ValueNotifier(0);
   final ValueNotifier<int> collectedGreenDiamond = ValueNotifier(0);
 
+  // craete health
+  final ValueNotifier<int> healthValue = ValueNotifier(100);
+
   // function to update collected diamon
   void updateCollectedDiamond(String diamonColor) {
     switch (diamonColor) {

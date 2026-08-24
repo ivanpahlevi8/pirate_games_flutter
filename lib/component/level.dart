@@ -186,7 +186,6 @@ class Level extends World with HasGameReference<MainGame> {
           case "waterReflect":
             // get position
             Vector2 getPosition = object.position;
-            Vector2 getSize = object.size;
 
             // get class
             bool isBig = object.properties.getValue<bool>("isBig") ?? true;

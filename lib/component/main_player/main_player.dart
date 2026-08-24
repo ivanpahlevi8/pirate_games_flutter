@@ -2,8 +2,12 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:pirate_action/component/cannon_trap/canon_ball.dart';
 import 'package:pirate_action/component/collision_block.dart';
+import 'package:pirate_action/component/head_trap/wood_spike.dart';
 import 'package:pirate_action/component/main_player/dust_movement.dart';
+import 'package:pirate_action/component/seashell_trap/pearl.dart';
+import 'package:pirate_action/component/seashell_trap/seashell.dart';
 import 'package:pirate_action/component/sword_component.dart';
 import 'package:pirate_action/core/custom_hitbox.dart';
 import 'package:pirate_action/core/player_platform_collision.dart';
@@ -14,10 +18,12 @@ enum playerState {
   Run,
   Jump,
   Fall,
+  Hit,
   IdleSword,
   RunSword,
   JumpSword,
   FallSword,
+  HitSword,
   IdleAttack1,
   IdleAttack2,
   IdleAttack3,
@@ -30,12 +36,14 @@ class MainPlayer extends SpriteAnimationGroupComponent
   late final SpriteAnimation playerRunAnimation;
   late final SpriteAnimation playerJumpAnimation;
   late final SpriteAnimation playerFallAnimation;
+  late final SpriteAnimation playerHitAnimation;
 
   // state for player has sword
   late final SpriteAnimation playerIdleSwordAnimation;
   late final SpriteAnimation playerRunSwordAnimation;
   late final SpriteAnimation playerJumpSwordAnimation;
   late final SpriteAnimation playerFallSwordAnimation;
+  late final SpriteAnimation playerHitSwordAnimation;
   late final SpriteAnimation playerIdleAttack1Animation;
 
   // parameter player to move
@@ -68,6 +76,9 @@ class MainPlayer extends SpriteAnimationGroupComponent
   // dust variable
   late Vector2 spawnDustPosition;
   double dustInterval = 0.0;
+
+  // player hit variable
+  bool isPlayerHit = false;
 
   @override
   FutureOr<void> onLoad() async {
@@ -127,8 +138,6 @@ class MainPlayer extends SpriteAnimationGroupComponent
 
     _handleVerticalCollisionPlatform();
 
-    //_handleJump(dt);
-
     if (isAttack && current == playerState.IdleAttack1 && isSwordAttach) {
       if (animationTickers?[playerState.IdleAttack1]?.done() == true) {
         isAttack = false; // Free the player to move again!
@@ -158,6 +167,46 @@ class MainPlayer extends SpriteAnimationGroupComponent
       // update hitbox
       playerRectangleHitbox.width += 20;
       playerCustomHitbox.width += 20;
+    }
+
+    // handle collision for each shooter
+    if (other is CanonBall || other is Pearl || other is WoodSpike) {
+      // set player hit to true
+      isPlayerHit = true;
+
+      // reduce player health based on shooter
+      if (other is CanonBall) {
+        game.healthValue.value -= 15;
+      } else if (other is Pearl) {
+        game.healthValue.value -= 10;
+      } else if (other is WoodSpike) {
+        game.healthValue.value -= 15;
+      }
+
+      // set x movement to o
+      playerDirectionMove = 0;
+
+      // update current state into hit state
+      if (isSwordAttach) {
+        current = playerState.HitSword;
+      } else {
+        current = playerState.Hit;
+      }
+
+      // swift player on x direction a few pixel based on shooter
+      if (other is CanonBall) {
+        position.x -= 10;
+      } else if (other is Pearl) {
+        position.x -= 7;
+      } else if (other is WoodSpike) {
+        position.x -= 5;
+      }
+
+      // call future function to update state
+      Future.delayed(Duration(milliseconds: 250), () {
+        // set player hit to false, so that the game continue
+        isPlayerHit = false;
+      });
     }
 
     super.onCollision(intersectionPoints, other);
@@ -203,6 +252,16 @@ class MainPlayer extends SpriteAnimationGroupComponent
 
     playerFallAnimation = await _createPlayerAnimation(fallAnimationList, true);
 
+    // create image list for hit animation
+    List<String> hitAnimationList = [
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/06-Hit/Hit 01.png",
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/06-Hit/Hit 02.png",
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/06-Hit/Hit 03.png",
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/06-Hit/Hit 04.png",
+    ];
+
+    playerHitAnimation = await _createPlayerAnimation(hitAnimationList, true);
+
     // craete image list for idle sword animation
     List<String> idleSwordAnimationList = [
       "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/09-Idle Sword/Idle Sword 01.png",
@@ -246,6 +305,17 @@ class MainPlayer extends SpriteAnimationGroupComponent
     playerFallSwordAnimation =
         await _createPlayerAnimation(fallSwordAnimationList, true);
 
+    // create image list for hit sword animation
+    List<String> hitSwordAnimationList = [
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/14-Hit Sword/Hit Sword 01.png",
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/14-Hit Sword/Hit Sword 02.png",
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/14-Hit Sword/Hit Sword 03.png",
+      "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/14-Hit Sword/Hit Sword 04.png",
+    ];
+
+    playerHitSwordAnimation =
+        await _createPlayerAnimation(hitSwordAnimationList, true);
+
     // create image list for idle attack 1
     List<String> idleAttack1AnimationList = [
       "Treasure Hunters/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/15-Attack 1/Attack 1 01.png",
@@ -261,10 +331,12 @@ class MainPlayer extends SpriteAnimationGroupComponent
       playerState.Run: playerRunAnimation,
       playerState.Jump: playerJumpAnimation,
       playerState.Fall: playerFallAnimation,
+      playerState.Hit: playerHitAnimation,
       playerState.IdleSword: playerIdleSwordAnimation,
       playerState.RunSword: playerRunSwordAnimation,
       playerState.JumpSword: playerJumpSwordAnimation,
       playerState.FallSword: playerFallSwordAnimation,
+      playerState.HitSword: playerHitSwordAnimation,
       playerState.IdleAttack1: playerIdleAttack1Animation,
     };
 
@@ -274,7 +346,9 @@ class MainPlayer extends SpriteAnimationGroupComponent
   // function to handle player movement
   void _handlePlayerMovement(double dt) {
     // update player position
-    position.x += (playerDirectionMove * playerVelocity) * dt;
+    if (!isPlayerHit) {
+      position.x += (playerDirectionMove * playerVelocity) * dt;
+    }
   }
 
   // function to handle player state
@@ -311,9 +385,21 @@ class MainPlayer extends SpriteAnimationGroupComponent
       }
     }
 
-    if (isAttack && isSwordAttach) {
+    if ((isAttack && isSwordAttach)) {
       playerDirectionMove = 0;
       current = playerState.IdleAttack1;
+      return;
+    }
+
+    // check if player being hit
+    if (isPlayerHit) {
+      playerDirectionMove = 0;
+      if (isSwordAttach) {
+        current = playerState.HitSword;
+      } else {
+        current = playerState.Hit;
+      }
+
       return;
     }
 
@@ -429,15 +515,6 @@ class MainPlayer extends SpriteAnimationGroupComponent
     position.y += velocity.y;
   }
 
-  // function to handle jump
-  void _handleJump(double dt) {
-    if (isJump) {
-      velocity.y = -6;
-
-      position.y += velocity.y * dt;
-    }
-  }
-
   // function to handle attack
   void handleAttack() {
     if (!isAttack && isSwordAttach) {
@@ -463,7 +540,7 @@ class MainPlayer extends SpriteAnimationGroupComponent
       isJump = true;
 
       // set velocity upward
-      velocity.y = -6;
+      velocity.y = -8;
 
       // add dust to parent
       parent!.add(
