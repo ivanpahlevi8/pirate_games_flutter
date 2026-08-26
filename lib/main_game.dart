@@ -106,7 +106,7 @@ class MainGame extends FlameGame
     currentLevel?.removeFromParent();
 
     // first level
-    player.position = Vector2(120, 540);
+    player.position = Vector2(2271, 540);
     currentLevel = Level(levelTitle: levelList[selectedLevel], player: player);
 
     // cam = CameraComponent(

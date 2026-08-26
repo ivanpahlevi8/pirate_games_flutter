@@ -7,6 +7,7 @@ import 'package:pirate_action/component/backgrond_component/water_reflect.dart';
 import 'package:pirate_action/component/barrel_component.dart';
 import 'package:pirate_action/component/cannon_trap/canon.dart';
 import 'package:pirate_action/component/collision_block.dart';
+import 'package:pirate_action/component/enemies/crabby_enemy.dart';
 import 'package:pirate_action/component/head_trap/tottem_head.dart';
 import 'package:pirate_action/component/backgrond_component/left_palm_tree.dart';
 import 'package:pirate_action/component/main_player/main_player.dart';
@@ -263,8 +264,46 @@ class Level extends World with HasGameReference<MainGame> {
             add(diamond);
 
             break;
+          case "enemy":
+            // get position
+            Vector2 getPosition = object.position;
+            Vector2 getSize = object.size;
+
+            // get properties
+            String getProperties =
+                object.properties.getValue<String>("name") ?? "crabby";
+
+            double getMaxLeft =
+                object.properties.getValue<double>("max_left") ?? 0.0;
+
+            double getMaxRight =
+                object.properties.getValue<double>("max_right") ?? 0.0;
+
+            // load enemy
+            _loadEnemyObject(
+                getProperties, getPosition, getSize, getMaxLeft, getMaxRight);
+
+            break;
         }
       }
+    }
+  }
+
+  void _loadEnemyObject(String name, Vector2 position, Vector2 size,
+      double maxLeft, double maxRight) {
+    switch (name) {
+      case "crabby":
+        // create crabby object
+        CrabbyEnemey crabby = CrabbyEnemey(
+            inputPosition: position,
+            inputSize: size,
+            maxLeft: maxLeft,
+            maxRight: maxRight);
+
+        // add to level
+        add(crabby);
+
+        break;
     }
   }
 }
