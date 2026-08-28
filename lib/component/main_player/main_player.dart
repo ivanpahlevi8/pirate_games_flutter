@@ -7,7 +7,6 @@ import 'package:pirate_action/component/collision_block.dart';
 import 'package:pirate_action/component/head_trap/wood_spike.dart';
 import 'package:pirate_action/component/main_player/dust_movement.dart';
 import 'package:pirate_action/component/seashell_trap/pearl.dart';
-import 'package:pirate_action/component/seashell_trap/seashell.dart';
 import 'package:pirate_action/component/sword_component.dart';
 import 'package:pirate_action/core/custom_hitbox.dart';
 import 'package:pirate_action/core/player_platform_collision.dart';

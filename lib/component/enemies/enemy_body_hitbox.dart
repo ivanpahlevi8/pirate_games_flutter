@@ -4,6 +4,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:pirate_action/component/collision_block.dart';
 import 'package:pirate_action/component/enemies/crabby_enemy.dart';
+import 'package:pirate_action/component/main_player/main_player.dart';
 
 class EnemyBodyHitbox extends RectangleHitbox {
   final Vector2 inputPosition;
@@ -16,6 +17,8 @@ class EnemyBodyHitbox extends RectangleHitbox {
   FutureOr<void> onLoad() {
     // set debug mode
     debugMode = false;
+    triggersParentCollision = false;
+    collisionType = CollisionType.passive;
     return super.onLoad();
   }
 
@@ -41,8 +44,24 @@ class EnemyBodyHitbox extends RectangleHitbox {
           enemy.isJump = false;
         }
       }
+    } else if (other.parent is MainPlayer) {
+      // handle collision when its collide with player
+      if (parent is CrabbyEnemey) {
+        final getCrabby = parent as CrabbyEnemey;
+
+        getCrabby.onGetPlayer();
+      }
     }
 
     super.onCollision(intersectionPoints, other);
+  }
+
+  @override
+  void onCollisionEnd(ShapeHitbox other) {
+    // check collide with
+    if (other.parent is MainPlayer) {
+      (parent as CrabbyEnemey).releasedPlayer();
+    }
+    super.onCollisionEnd(other);
   }
 }
