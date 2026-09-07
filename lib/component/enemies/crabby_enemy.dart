@@ -58,6 +58,9 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
   bool isGotPlayer = false;
   bool isFinishChase = false;
 
+  // variable for attack player
+  bool isEntterAttackMode = false;
+
   @override
   FutureOr<void> onLoad() {
     // load every animation
@@ -230,6 +233,7 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
       // update state chase player
       if (movementState != ConditionState.chase) {
         movementState = ConditionState.chase;
+        enemyVelocity.x = 0.0;
       }
 
       // keep update player position
@@ -244,6 +248,9 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
   void releasedPlayer() {
     // chase player again
     isGotPlayer = false;
+
+    // set on attack to false
+    isEntterAttackMode = false;
   }
 
   // function to finish chase player
@@ -259,6 +266,9 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
 
     // set is finish chase to true
     isFinishChase = true;
+
+    // set enter attack mode to false
+    isEntterAttackMode = false;
   }
 
   // function when get player
@@ -280,6 +290,9 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
       enemyVelocity.x = 0;
 
       isFinishChase = true;
+
+      // set current movement state to attack
+      movementState = ConditionState.attack;
     }
   }
 
@@ -395,8 +408,12 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
         enemyVelocity.x += (faceRight ? 1 : -1) * (enemyAcceleration.x) * dt;
 
         position.x += enemyVelocity.x * dt;
+
+        print("Do chase on position : ${position.x}");
       case ConditionState.attack:
-      // attack condition
+        print("Do attack...");
+        // on attack mode, set velocity to 0
+        enemyVelocity.x = 0;
     }
   }
 
@@ -424,7 +441,27 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
           current = CrabbyState.run;
         }
       case ConditionState.attack:
-      // attack condition
+        // attack condition, check if already attack or not
+        if (!isEntterAttackMode) {
+          // set to true
+          isEntterAttackMode = true;
+
+          // set current animation to attack animation
+          current = CrabbyState.attack;
+
+          // set a future function to update current state to idle
+          Future.delayed(Duration(milliseconds: 300), () {
+            movementState = ConditionState.patrol;
+            counterDuration = 0.0;
+
+            isEntterAttackMode = false;
+
+            isGotPlayer = false;
+
+            // update start position
+            startPositionMovement = position.clone();
+          });
+        }
     }
   }
 

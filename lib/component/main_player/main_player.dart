@@ -79,6 +79,9 @@ class MainPlayer extends SpriteAnimationGroupComponent
   // player hit variable
   bool isPlayerHit = false;
 
+  // enemy attack variable
+  bool isOnAttack = false;
+
   @override
   FutureOr<void> onLoad() async {
     size = Vector2(128, 128);
