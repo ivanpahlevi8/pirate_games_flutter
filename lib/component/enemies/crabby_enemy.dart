@@ -60,9 +60,12 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
 
   // variable for attack player
   bool isEntterAttackMode = false;
-  bool isOnColldownAttack = false;
+  bool isOnCooldownBeforeAttack = false;
+  bool isOnColldownAfterAttack = false;
   double cooldownCounter = 0.0;
   double cooldownDuration = 2.0;
+  double cooldownBeforeAttackCounter = 0.0;
+  double cooldownBeforeAttackDuration = 1.0;
 
   @override
   FutureOr<void> onLoad() {
@@ -211,12 +214,6 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
     }
   }
 
-  @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    // TODO: implement onCollision
-    super.onCollision(intersectionPoints, other);
-  }
-
   // function to handle gravity
   void _handleGravity(double dt) {
     // update vertical velocity
@@ -249,7 +246,6 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
 
   // function to release player
   void releasedPlayer() {
-    print("Released PLayer");
     // chase player again
     isGotPlayer = false;
 
@@ -258,7 +254,7 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
 
     // set cooldown to zero
     cooldownCounter = 0.0;
-    isOnColldownAttack = false;
+    isOnColldownAfterAttack = false;
   }
 
   // function to finish chase player
@@ -279,8 +275,7 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
     isEntterAttackMode = false;
 
     // set cooldown attack to false
-    print("Finish Chase Player");
-    isOnColldownAttack = false;
+    isOnColldownAfterAttack = false;
   }
 
   // function when get player
@@ -305,6 +300,9 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
 
       // set current movement state to attack
       movementState = ConditionState.attack;
+
+      // set cool down to true
+      isOnCooldownBeforeAttack = true;
     }
   }
 
@@ -422,14 +420,14 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
         position.x += enemyVelocity.x * dt;
 
         // set cooldown to false if its not
-        isOnColldownAttack = false;
+        isOnColldownAfterAttack = false;
       case ConditionState.attack:
-        print("Do attack...");
         // on attack mode, set velocity to 0
         enemyVelocity.x = 0;
 
         // update cooldown counter
         cooldownCounter += dt;
+        cooldownBeforeAttackCounter += dt;
 
         // check if cooldown is over
         if (cooldownCounter >= cooldownDuration) {
@@ -437,7 +435,15 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
           cooldownCounter = 0.0;
 
           // set on cooldown to false
-          isOnColldownAttack = false;
+          isOnColldownAfterAttack = false;
+        }
+
+        // check if cooldows is over
+        if (cooldownBeforeAttackCounter >= cooldownBeforeAttackDuration) {
+          // set back cooldown before attack
+          cooldownBeforeAttackCounter = 0.0;
+
+          isOnCooldownBeforeAttack = false;
         }
     }
   }
@@ -467,10 +473,15 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
         }
       case ConditionState.attack:
         // attack condition, check if already attack or not
-        if (!isEntterAttackMode && !isOnColldownAttack) {
+        if (!isEntterAttackMode &&
+            !isOnColldownAfterAttack &&
+            !isOnCooldownBeforeAttack) {
           // set to true
           isEntterAttackMode = true;
-          isOnColldownAttack = true;
+          isOnColldownAfterAttack = true;
+
+          // set cooldown before attack
+          isOnCooldownBeforeAttack = false;
 
           // set current animation to attack animation
           current = CrabbyState.attack;
@@ -485,6 +496,9 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
             // update start position
             startPositionMovement = position.clone();
           });
+        } else if (current == CrabbyState.run) {
+          // check if crabby running at cooldown, set it to idle
+          current = CrabbyState.idle;
         }
     }
   }

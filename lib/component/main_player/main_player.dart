@@ -4,6 +4,8 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:pirate_action/component/cannon_trap/canon_ball.dart';
 import 'package:pirate_action/component/collision_block.dart';
+import 'package:pirate_action/component/enemies/crabby_enemy.dart';
+import 'package:pirate_action/component/enemies/enemy_body_hitbox.dart';
 import 'package:pirate_action/component/head_trap/wood_spike.dart';
 import 'package:pirate_action/component/main_player/dust_movement.dart';
 import 'package:pirate_action/component/seashell_trap/pearl.dart';
@@ -203,6 +205,28 @@ class MainPlayer extends SpriteAnimationGroupComponent
       } else if (other is WoodSpike) {
         position.x -= 5;
       }
+
+      // call future function to update state
+      Future.delayed(Duration(milliseconds: 250), () {
+        // set player hit to false, so that the game continue
+        isPlayerHit = false;
+      });
+    }
+
+    if (other is CrabbyEnemey && (other).isEntterAttackMode) {
+      // set player hit
+      isPlayerHit = true;
+
+      // move player based on crabby enemy positio
+      if (other.position.x > position.x) {
+        // enemy on the right side, move to left
+        position.x -= 7;
+      } else {
+        position.x += 7;
+      }
+
+      // update health
+      game.healthValue.value -= 10;
 
       // call future function to update state
       Future.delayed(Duration(milliseconds: 250), () {

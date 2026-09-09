@@ -17,7 +17,7 @@ class EnemyBodyHitbox extends RectangleHitbox {
   FutureOr<void> onLoad() {
     // set debug mode
     debugMode = false;
-    triggersParentCollision = false;
+    triggersParentCollision = true;
     collisionType = CollisionType.passive;
     return super.onLoad();
   }
