@@ -5,7 +5,6 @@ import 'package:flame/components.dart';
 import 'package:pirate_action/component/cannon_trap/canon_ball.dart';
 import 'package:pirate_action/component/collision_block.dart';
 import 'package:pirate_action/component/enemies/crabby_enemy.dart';
-import 'package:pirate_action/component/enemies/enemy_body_hitbox.dart';
 import 'package:pirate_action/component/head_trap/wood_spike.dart';
 import 'package:pirate_action/component/main_player/dust_movement.dart';
 import 'package:pirate_action/component/seashell_trap/pearl.dart';
@@ -213,7 +212,10 @@ class MainPlayer extends SpriteAnimationGroupComponent
       });
     }
 
-    if (other is CrabbyEnemey && (other).isEntterAttackMode) {
+    if (other is CrabbyEnemey &&
+        (other).isEntterAttackMode &&
+        !isOnAttack &&
+        !isPlayerHit) {
       // set player hit
       isPlayerHit = true;
 
@@ -229,7 +231,7 @@ class MainPlayer extends SpriteAnimationGroupComponent
       game.healthValue.value -= 10;
 
       // call future function to update state
-      Future.delayed(Duration(milliseconds: 250), () {
+      Future.delayed(Duration(milliseconds: 300), () {
         // set player hit to false, so that the game continue
         isPlayerHit = false;
       });

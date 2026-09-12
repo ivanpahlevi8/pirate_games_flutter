@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/animation.dart';
 import 'package:pirate_action/component/enemies/enemy_body_hitbox.dart';
 import 'package:pirate_action/component/enemies/object_detection_hitbox.dart';
 import 'package:pirate_action/component/enemies/player_detection_hitbox.dart';
+import 'package:pirate_action/component/main_player/main_player.dart';
 import 'package:pirate_action/main_game.dart';
 
 enum CrabbyState { idle, run, jump, fall, attack, hit, dead, deadGround }
@@ -66,6 +68,21 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
   double cooldownDuration = 2.0;
   double cooldownBeforeAttackCounter = 0.0;
   double cooldownBeforeAttackDuration = 1.0;
+
+  // variable for being attacked by player
+  bool isBeingAttacked = false;
+
+  // create ebnemy health
+  double enemyHealth = 100;
+  bool isHealthReduced = false;
+  bool isDead = false;
+
+  final Paint bgPaint = Paint()..color = const Color(0xFF333333);
+  final Paint fgPaint = Paint()..color = const Color(0xFF4CAF50);
+  final Paint borderPaint = Paint()
+    ..color = const Color(0xFF000000)
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = 1.0;
 
   @override
   FutureOr<void> onLoad() {
@@ -195,15 +212,69 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
 
   @override
   void update(double dt) {
-    // update animation state
-    _updateStateBasedOnCondition();
+    // handle reduced on health
+    _reducedEnemeyHealth();
 
-    // update movement
-    _updatePositionBasedOnCondition(dt);
+    if (!isDead) {
+      // update animation state
+      _updateStateBasedOnCondition();
 
-    // handle gravity
-    _handleGravity(dt);
+      // update movement
+      _updatePositionBasedOnCondition(dt);
+
+      // handle gravity
+      _handleGravity(dt);
+    }
     super.update(dt);
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    // check if other was a player and in attack mode
+    if (other is MainPlayer && other.isAttack && !isBeingAttacked) {
+      // set being attack to true
+      print("Set is being attacked to true");
+      isBeingAttacked = true;
+
+      // set state into idle
+      movementState = ConditionState.idle;
+    }
+
+    super.onCollision(intersectionPoints, other);
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+
+    if (enemyHealth < 100 && enemyHealth > 0) {
+      final barWidth = size.x;
+      final barHeight = 6.0;
+
+      // Position top-left of the bar relative to enemy anchor position
+      final double x = anchor == Anchor.center ? (-size.x / 2) + 100.0 : 0.0;
+      final double y = anchor == Anchor.center ? (-size.y / 2) + 40.0 : -12.0;
+
+      final healthRatio = (enemyHealth / 100).clamp(0.0, 1.0);
+
+      // 1. Background (Empty Bar)
+      canvas.drawRect(
+        Rect.fromLTWH(x, y, barWidth, barHeight),
+        bgPaint,
+      );
+
+      // 2. Foreground (Current Health)
+      canvas.drawRect(
+        Rect.fromLTWH(x, y, barWidth * healthRatio, barHeight),
+        fgPaint,
+      );
+
+      // 3. Border
+      canvas.drawRect(
+        Rect.fromLTWH(x, y, barWidth, barHeight),
+        borderPaint,
+      );
+    }
   }
 
   void doJump() {
@@ -228,7 +299,7 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
 
   // function to chase the player
   void chasePlayer(Vector2 playerPosition) {
-    if (!isGotPlayer) {
+    if (!isGotPlayer && !isBeingAttacked) {
       // chase player while it is not yet gotted
       // update state chase player
       if (movementState != ConditionState.chase) {
@@ -306,6 +377,47 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
     }
   }
 
+  // function to reduced health
+  void _reducedEnemeyHealth() {
+    if (isBeingAttacked && !isHealthReduced) {
+      // update helath reduced
+      isHealthReduced = true;
+
+      // reduced health
+      enemyHealth -= 10;
+    }
+
+    // check if enemy health and less then zero
+    if (enemyHealth <= 0) {
+      // set is dead to true
+      isDead = true;
+
+      // push enemy to the oposite side of the player
+      if (position.x > game.player.position.x) {
+        position.x += 10;
+      } else {
+        position.x -= 10;
+      }
+
+      // update current animation state into dead hit
+      current = CrabbyState.dead;
+
+      // called future function to remove  the enemy
+      Future.delayed(Duration(milliseconds: 250), () {
+        // update position
+        position.y += 20;
+
+        // update current state to dead ground
+        current = CrabbyState.deadGround;
+
+        // called future function to remove from parent
+        Future.delayed(Duration(milliseconds: 350), () {
+          removeFromParent();
+        });
+      });
+    }
+  }
+
   // function when released from plyer
 
   void _updatePositionBasedOnCondition(double dt) {
@@ -337,6 +449,18 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
               // set got to false again
               isGotPlayer = false;
             });
+          }
+        } else if (isBeingAttacked) {
+          // stop player
+          isMoving = false;
+
+          // pushed player based on main player position
+          if (game.player.position.x > position.x) {
+            // main player on right, push enemy to left
+            position.x -= 7.0;
+          } else {
+            // main player on left, push enemy to right
+            position.x += 7.0;
           }
         } else {
           // update movement duration
@@ -376,6 +500,14 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
 
         break;
       case ConditionState.patrol:
+        // validate face again
+        if (targetPosition > position.x) {
+          // target on the right, set face right to true
+          faceRight = true;
+        } else {
+          faceRight = false;
+        }
+
         // update counter duration
         counterDuration += dt;
 
@@ -458,7 +590,23 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
     // check every condition
     switch (movementState) {
       case ConditionState.idle:
-        current = CrabbyState.idle;
+        if (isBeingAttacked) {
+          current = CrabbyState.hit;
+
+          // set being attac to false, to stop the player position under attack
+          isBeingAttacked = false;
+
+          // call future function to update state to idle again
+          Future.delayed(Duration(milliseconds: 250), () {
+            isBeingAttacked = false;
+
+            isHealthReduced = false;
+
+            current = CrabbyState.idle;
+          });
+        } else {
+          current = CrabbyState.idle;
+        }
 
         break;
       case ConditionState.patrol:
