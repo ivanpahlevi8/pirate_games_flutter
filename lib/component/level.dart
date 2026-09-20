@@ -8,12 +8,15 @@ import 'package:pirate_action/component/barrel_component.dart';
 import 'package:pirate_action/component/cannon_trap/canon.dart';
 import 'package:pirate_action/component/collision_block.dart';
 import 'package:pirate_action/component/enemies/crabby_enemy.dart';
+import 'package:pirate_action/component/enemies/pink_star_enemy.dart';
 import 'package:pirate_action/component/head_trap/tottem_head.dart';
 import 'package:pirate_action/component/backgrond_component/left_palm_tree.dart';
 import 'package:pirate_action/component/main_player/main_player.dart';
 import 'package:pirate_action/component/backgrond_component/regular_palm_tree.dart';
 import 'package:pirate_action/component/backgrond_component/right_plam_tree.dart';
 import 'package:pirate_action/component/seashell_trap/seashell.dart';
+import 'package:pirate_action/component/ship_components/ship/ship_component.dart';
+import 'package:pirate_action/component/ship_components/water/water_top_component.dart';
 import 'package:pirate_action/component/sword_component.dart';
 import 'package:pirate_action/component/treasure/diamond_treasure.dart';
 import 'package:pirate_action/main_game.dart';
@@ -36,13 +39,13 @@ class Level extends World with HasGameReference<MainGame> {
     // load tiled component from assets
     level = await TiledComponent.load("$levelTitle.tmx", Vector2.all(32));
 
+    add(level);
+
     //debugMode = true;
 
     _loadCollisionObject();
 
     _loadAllObjects();
-
-    add(level);
 
     add(player);
 
@@ -284,6 +287,31 @@ class Level extends World with HasGameReference<MainGame> {
                 getProperties, getPosition, getSize, getMaxLeft, getMaxRight);
 
             break;
+          case "water":
+            // get position
+            Vector2 getPosition = object.position;
+            Vector2 getSize = object.size;
+
+            // create water object
+            WaterTopComponent waterComponent = WaterTopComponent(
+                inputPosition: getPosition, inputSize: getSize);
+
+            // load water
+            add(waterComponent);
+
+            break;
+          case "ship":
+            // get position
+            Vector2 getPosition = object.position;
+            Vector2 getSize = object.size;
+
+            // create ship object
+            ShipComponent ship =
+                ShipComponent(inputPosition: getPosition, inputSize: getSize);
+
+            add(ship);
+
+            break;
         }
       }
     }
@@ -304,6 +332,15 @@ class Level extends World with HasGameReference<MainGame> {
         add(crabby);
 
         break;
+      case "pink":
+        // create pink object
+        PinkStarEnemy pink = PinkStarEnemy(
+            inputPosition: position,
+            inputSize: size,
+            maxRight: maxRight,
+            maxLeft: maxLeft);
+
+        add(pink);
     }
   }
 }

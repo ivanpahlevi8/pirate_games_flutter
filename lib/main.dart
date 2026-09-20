@@ -117,6 +117,24 @@ void main() async {
                   child: HealtOverlay(healthValue: game.healthValue)),
             );
           },
+          "Loading": (BuildContext context, MainGame game) {
+            return Container(
+              color: Colors.black,
+              child: const Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(color: Colors.amber),
+                    SizedBox(height: 16),
+                    Text(
+                      'Loading Next Level...',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
         },
         initialActiveOverlays: const ["Diamond", "Coin", "Health"],
       )),

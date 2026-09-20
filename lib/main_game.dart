@@ -68,7 +68,7 @@ class MainGame extends FlameGame
 
   // create level list
   List<String> levelList = ["level-01", "level-02"];
-  int selectedLevel = 0;
+  int selectedLevel = 1;
 
   @override
   FutureOr<void> onLoad() async {
@@ -89,43 +89,104 @@ class MainGame extends FlameGame
     // handle joystick input
     _handleJoyStick();
 
-    // update camera position
-    if (player.x >= (750)) {
-      cam!.viewfinder.position = Vector2(player.x, 300);
-    } else {
-      cam!.viewfinder.position = Vector2(750, 300);
-    }
+    final double minX = 810.0;
+
+    // Hardcode the target Y to the exact center of the map heights
+    final double targetY = selectedLevel == 0 ? 378.0 : 368.0;
+
+    final double camX = player.x.clamp(minX, double.infinity);
+
+    // Do not let camY move based on player.y anymore for level 1
+    final double camY = targetY;
+
+    cam!.viewfinder.position = Vector2(camX, camY);
 
     super.update(dt);
+  }
+
+  // create function to load on ship
+  void loadOnShip() {
+    // set overlay
+    overlays.add("Loading");
+
+    // rmeove all overlay
+    overlays.removeAll(["Diamond", "Coin", "Health"]);
+
+    // set game freeze
+    paused = true;
+
+    // add some delay
+    Future.delayed(Duration(milliseconds: 1000), () {
+      // update selected level
+      selectedLevel += 1;
+
+      // reload world
+      _loadWorld();
+
+      // RELOAD CONTROLLER
+      _loadJoyStick();
+      _loadJumpButton();
+      _loadAttackButton();
+
+      // remove loading overlay
+      overlays.remove("Loading");
+
+      // add all overlay
+      overlays.addAll(["Diamond", "Coin", "Health"]);
+
+      // set game to run again
+      paused = false;
+    });
   }
 
   // functon to load world
   void _loadWorld() {
     // 1. Safely remove the OLD camera and level if they exist in the tree
+    if (player.parent != null) {
+      player.removeFromParent();
+    }
+
+    if (currentLevel != null) {
+      currentLevel!.removeAll(
+          currentLevel!.children); // Clears old enemies, backgrounds, etc.
+      currentLevel!.removeFromParent();
+    }
+
     cam?.removeFromParent();
-    currentLevel?.removeFromParent();
 
     // first level
-    player.position = Vector2(2271, 540);
+    player.position = Vector2(selectedLevel == 0 ? 3400 : 200, 540);
     currentLevel = Level(levelTitle: levelList[selectedLevel], player: player);
 
     // cam = CameraComponent(
     //   world: level
     // );
 
+    final double deviceAspectRatio = size.x / size.y;
+    final double targetHeight = selectedLevel == 0 ? 340.0 : 736.0;
+    final double targetWidth = targetHeight * deviceAspectRatio;
+
     cam = CameraComponent.withFixedResolution(
-      width: 800,
-      height: 360,
+      width: targetWidth,
+      height: targetHeight,
       world: currentLevel,
     );
 
-    cam!.viewfinder.zoom = 0.45;
+    if (selectedLevel == 0) {
+      cam!.viewfinder.zoom = 1;
+    } else {
+      cam!.viewfinder.zoom = 1;
+    }
 
     // 1. CHANGE THIS TO CENTER
     cam!.viewfinder.anchor = Anchor.center;
 
-    // 2. Set the initial position.
-    cam!.viewfinder.position = Vector2(800, 380);
+    if (selectedLevel == 1) {
+      // Push the camera target down (e.g., from 350 to 420) so the bottom platform fits
+      cam!.viewfinder.position = Vector2(800, 500);
+    } else {
+      cam!.viewfinder.position = Vector2(800, 340);
+    }
 
     // cam.viewfinder.anchor = Anchor.center;
     // cam.follow(playerMask);

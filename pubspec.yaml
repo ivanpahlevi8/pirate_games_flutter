@@ -87,6 +87,12 @@ flutter:
     - assets/images/Treasure Hunters/The Crusty Crew/Sprites/Crabby/08-Hit/
     - assets/images/Treasure Hunters/The Crusty Crew/Sprites/Crabby/09-Dead Hit/
     - assets/images/Treasure Hunters/The Crusty Crew/Sprites/Crabby/10-Dead Ground/
+    - assets/images/Treasure Hunters/The Crusty Crew/Sprites/Pink Star/01-Idle/
+    - assets/images/Treasure Hunters/The Crusty Crew/Sprites/Pink Star/02-Run/
+    - assets/images/Treasure Hunters/The Crusty Crew/Sprites/Pink Star/03-Jump/
+    - assets/images/Treasure Hunters/The Crusty Crew/Sprites/Pink Star/04-Fall/
+    - assets/images/Treasure Hunters/The Crusty Crew/Sprites/Pink Star/07-Attack/
+    - assets/images/Treasure Hunters/The Crusty Crew/Sprites/Pink Star/08-Hit/
     - assets/images/Treasure Hunters/Merchant Ship/Sprites/Barrel/Idle/
     - assets/images/Treasure Hunters/Merchant Ship/Sprites/Barrel/Hit/
     - assets/images/Treasure Hunters/Merchant Ship/Sprites/Barrel/Destroyed/
@@ -136,6 +142,13 @@ flutter:
     - assets/images/Treasure Hunters/Pirate Treasure/Sprites/Red Potion/
     - assets/images/Treasure Hunters/Pirate Treasure/Sprites/Silver Coin/
     - assets/images/Treasure Hunters/Pirate Treasure/Sprites/Skull Effect/
+    - assets/images/Treasure Hunters/Merchant Ship/Sprites/Water/Water/Top/
+    - assets/images/Treasure Hunters/Merchant Ship/Sprites/Water/Water/Bottom/
+    - assets/images/Treasure Hunters/Merchant Ship/Sprites/Ship/Ship/Idle/
+    - assets/images/Treasure Hunters/Merchant Ship/Sprites/Ship/Sail/No Wind/
+    - assets/images/Treasure Hunters/Merchant Ship/Sprites/Ship/Sail/Transition to No Wind/
+    - assets/images/Treasure Hunters/Merchant Ship/Sprites/Ship/Sail/Transition to Wind/
+    - assets/images/Treasure Hunters/Merchant Ship/Sprites/Ship/Sail/Wind/
     - assets/images/hud/
 
   # An image asset can refer to one or more resolution-specific "variants", see

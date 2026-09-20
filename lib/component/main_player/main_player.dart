@@ -83,6 +83,10 @@ class MainPlayer extends SpriteAnimationGroupComponent
   // enemy attack variable
   bool isOnAttack = false;
 
+  // variable to state if user on ship or not
+  bool isOnBoardShip = false;
+  bool isMovingWithShip = false;
+
   @override
   FutureOr<void> onLoad() async {
     size = Vector2(128, 128);
@@ -124,6 +128,8 @@ class MainPlayer extends SpriteAnimationGroupComponent
             (playerCustomHitbox.height / 2) -
             30 // 20 is height of the dust
         );
+
+    priority = 10;
 
     return super.onLoad();
   }
@@ -538,9 +544,11 @@ class MainPlayer extends SpriteAnimationGroupComponent
 
   // function to handle gravity
   void _handleGravity(double dt) {
-    velocity.y += gravity_speed * dt;
+    if (!isOnBoardShip) {
+      velocity.y += gravity_speed * dt;
 
-    position.y += velocity.y;
+      position.y += velocity.y;
+    }
   }
 
   // function to handle attack

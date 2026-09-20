@@ -205,7 +205,9 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
     // set initial start position
     startPositionMovement = inputPosition;
 
-    debugMode = true;
+    debugMode = false;
+
+    priority = 10;
 
     return super.onLoad();
   }
@@ -233,7 +235,6 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
     // check if other was a player and in attack mode
     if (other is MainPlayer && other.isAttack && !isBeingAttacked) {
       // set being attack to true
-      print("Set is being attacked to true");
       isBeingAttacked = true;
 
       // set state into idle
@@ -251,25 +252,21 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
       final barWidth = size.x;
       final barHeight = 6.0;
 
-      // Position top-left of the bar relative to enemy anchor position
       final double x = anchor == Anchor.center ? (-size.x / 2) + 100.0 : 0.0;
       final double y = anchor == Anchor.center ? (-size.y / 2) + 40.0 : -12.0;
 
       final healthRatio = (enemyHealth / 100).clamp(0.0, 1.0);
 
-      // 1. Background (Empty Bar)
       canvas.drawRect(
         Rect.fromLTWH(x, y, barWidth, barHeight),
         bgPaint,
       );
 
-      // 2. Foreground (Current Health)
       canvas.drawRect(
         Rect.fromLTWH(x, y, barWidth * healthRatio, barHeight),
         fgPaint,
       );
 
-      // 3. Border
       canvas.drawRect(
         Rect.fromLTWH(x, y, barWidth, barHeight),
         borderPaint,

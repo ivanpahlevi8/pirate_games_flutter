@@ -31,7 +31,8 @@ class ObjectDetectionHitbox extends PositionComponent with CollisionCallbacks {
     // check collision for collision block
     if (other is CollisionBlock) {
       // check object condition
-      if ((crabby.position.y + (crabby.height / 2)) > other.position.y) {
+      if ((crabby.position.y + (crabby.height / 2)) > other.position.y &&
+          other.height <= 63) {
         crabby.doJump();
       }
     }

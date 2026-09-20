@@ -1,5 +1,5 @@
 {
-    "activeFile": "level-01.tmx",
+    "activeFile": "level-02.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -14,24 +14,42 @@
             "scaleInEditor": 1
         },
         "level-01.tmx": {
+            "expandedObjectLayers": [
+                3,
+                2
+            ],
             "scale": 0.75,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 621.3333333333334,
-                "y": 454.66666666666674
+                "x": 2707.333333333333,
+                "y": 390.66666666666674
+            }
+        },
+        "level-02.tmx": {
+            "expandedObjectLayers": [
+                3,
+                2
+            ],
+            "scale": 0.75,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 843.3333333333333,
+                "y": 363.99999999999994
             }
         }
     },
     "last.imagePath": "E:/Ivan Data/Second/Coding/FlutterLearn/pirate_action/assets/images/Treasure Hunters/Pirate Ship/Sprites/Tilesets",
     "map.lastUsedFormat": "tmx",
     "openFiles": [
-        "level-01.tmx"
+        "level-01.tmx",
+        "level-02.tmx"
     ],
     "project": "pirates.tiled-project",
     "property.type": "float",
     "recentFiles": [
-        "ShipTerrain.tsx",
         "level-01.tmx",
+        "level-02.tmx",
+        "ShipTerrain.tsx",
         "IslandTerrain.tsx"
     ],
     "tileset.lastUsedFormat": "tsx"
