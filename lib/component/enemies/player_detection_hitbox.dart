@@ -3,23 +3,27 @@ import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:pirate_action/component/enemies/crabby_enemy.dart';
+import 'package:pirate_action/component/enemies/enemy_interface.dart';
 import 'package:pirate_action/component/main_player/main_player.dart';
 
 class PlayerDetectionHitbox extends PositionComponent with CollisionCallbacks {
-  final CrabbyEnemey crabby;
+  final EnemyInterface enemy;
   final Vector2 inputPosition;
+  final Vector2 inputSize;
 
-  PlayerDetectionHitbox({required this.inputPosition, required this.crabby})
-      : super(
-            position: inputPosition,
-            size: Vector2(500, 500),
-            anchor: Anchor.center);
+  PlayerDetectionHitbox(
+      {required this.inputPosition,
+      required this.enemy,
+      required this.inputSize})
+      : super(position: inputPosition, size: inputSize, anchor: Anchor.center);
 
   @override
   FutureOr<void> onLoad() {
     // add hitbox
     add(RectangleHitbox(
-        position: Vector2.all(0.0), size: Vector2.all(500), isSolid: true));
+        position: Vector2.all(0.0), size: inputSize, isSolid: true));
+
+    debugMode = true;
 
     return super.onLoad();
   }
@@ -29,7 +33,7 @@ class PlayerDetectionHitbox extends PositionComponent with CollisionCallbacks {
     // check collision with other player
     if (other is MainPlayer) {
       // called function to chase the player
-      crabby.chasePlayer(other.position);
+      enemy.chasePlayer(other.position);
     }
 
     super.onCollision(intersectionPoints, other);
@@ -39,7 +43,7 @@ class PlayerDetectionHitbox extends PositionComponent with CollisionCallbacks {
   void onCollisionEnd(PositionComponent other) {
     // check parent
     if (other is MainPlayer) {
-      crabby.finishChasePlayer();
+      enemy.finishChasePlayer();
     }
 
     super.onCollisionEnd(other);

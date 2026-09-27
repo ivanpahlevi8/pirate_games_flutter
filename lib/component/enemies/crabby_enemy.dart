@@ -5,6 +5,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/animation.dart';
 import 'package:pirate_action/component/enemies/enemy_body_hitbox.dart';
+import 'package:pirate_action/component/enemies/enemy_interface.dart';
 import 'package:pirate_action/component/enemies/object_detection_hitbox.dart';
 import 'package:pirate_action/component/enemies/player_detection_hitbox.dart';
 import 'package:pirate_action/component/main_player/main_player.dart';
@@ -16,7 +17,8 @@ enum CrabbyState { idle, run, jump, fall, attack, hit, dead, deadGround }
 enum ConditionState { patrol, chase, idle, attack }
 
 class CrabbyEnemey extends SpriteAnimationGroupComponent
-    with HasGameReference<MainGame>, CollisionCallbacks {
+    with HasGameReference<MainGame>, CollisionCallbacks
+    implements EnemyInterface {
   final Vector2 inputPosition;
   final Vector2 inputSize;
   final double maxLeft;
@@ -192,7 +194,8 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
           crabby: this),
       PlayerDetectionHitbox(
           inputPosition: Vector2(inputSize.x / 2, inputSize.y / 2),
-          crabby: this)
+          enemy: this,
+          inputSize: Vector2(500, 500))
     ]);
 
     add(EnemyBodyHitbox(
@@ -295,6 +298,7 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
   }
 
   // function to chase the player
+  @override
   void chasePlayer(Vector2 playerPosition) {
     if (!isGotPlayer && !isBeingAttacked) {
       // chase player while it is not yet gotted
@@ -326,6 +330,7 @@ class CrabbyEnemey extends SpriteAnimationGroupComponent
   }
 
   // function to finish chase player
+  @override
   void finishChasePlayer() {
     // this function called when player out of the range
     movementState = ConditionState.idle;

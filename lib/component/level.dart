@@ -15,6 +15,7 @@ import 'package:pirate_action/component/main_player/main_player.dart';
 import 'package:pirate_action/component/backgrond_component/regular_palm_tree.dart';
 import 'package:pirate_action/component/backgrond_component/right_plam_tree.dart';
 import 'package:pirate_action/component/seashell_trap/seashell.dart';
+import 'package:pirate_action/component/ship_components/interiors/ship_door.dart';
 import 'package:pirate_action/component/ship_components/ship/ship_component.dart';
 import 'package:pirate_action/component/ship_components/water/water_top_component.dart';
 import 'package:pirate_action/component/sword_component.dart';
@@ -312,6 +313,16 @@ class Level extends World with HasGameReference<MainGame> {
             add(ship);
 
             break;
+          case "door":
+            // get position
+            Vector2 getPosition = object.position;
+            Vector2 getSize = object.size;
+
+            // create door
+            ShipDoor shipDoor =
+                ShipDoor(inputPosition: getPosition, inputSize: getSize);
+
+            add(shipDoor);
         }
       }
     }

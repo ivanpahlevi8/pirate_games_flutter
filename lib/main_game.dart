@@ -163,7 +163,7 @@ class MainGame extends FlameGame
     // );
 
     final double deviceAspectRatio = size.x / size.y;
-    final double targetHeight = selectedLevel == 0 ? 340.0 : 736.0;
+    final double targetHeight = selectedLevel == 0 ? 340.0 : (736.0 * 0.45);
     final double targetWidth = targetHeight * deviceAspectRatio;
 
     cam = CameraComponent.withFixedResolution(
@@ -175,7 +175,7 @@ class MainGame extends FlameGame
     if (selectedLevel == 0) {
       cam!.viewfinder.zoom = 1;
     } else {
-      cam!.viewfinder.zoom = 1;
+      cam!.viewfinder.zoom = 0.45;
     }
 
     // 1. CHANGE THIS TO CENTER

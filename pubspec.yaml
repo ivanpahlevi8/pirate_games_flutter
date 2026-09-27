@@ -149,6 +149,8 @@ flutter:
     - assets/images/Treasure Hunters/Merchant Ship/Sprites/Ship/Sail/Transition to No Wind/
     - assets/images/Treasure Hunters/Merchant Ship/Sprites/Ship/Sail/Transition to Wind/
     - assets/images/Treasure Hunters/Merchant Ship/Sprites/Ship/Sail/Wind/
+    - assets/images/Treasure Hunters/Pirate Ship/Sprites/Decorations/Door/Opening/
+    - assets/images/Treasure Hunters/Pirate Ship/Sprites/Decorations/Door/Closing/
     - assets/images/hud/
 
   # An image asset can refer to one or more resolution-specific "variants", see
