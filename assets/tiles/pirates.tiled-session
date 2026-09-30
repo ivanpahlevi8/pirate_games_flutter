@@ -45,7 +45,7 @@
         "level-02.tmx"
     ],
     "project": "pirates.tiled-project",
-    "property.type": "float",
+    "property.type": "bool",
     "recentFiles": [
         "level-01.tmx",
         "level-02.tmx",

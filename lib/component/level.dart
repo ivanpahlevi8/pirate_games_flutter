@@ -15,7 +15,10 @@ import 'package:pirate_action/component/main_player/main_player.dart';
 import 'package:pirate_action/component/backgrond_component/regular_palm_tree.dart';
 import 'package:pirate_action/component/backgrond_component/right_plam_tree.dart';
 import 'package:pirate_action/component/seashell_trap/seashell.dart';
+import 'package:pirate_action/component/ship_components/interiors/ship_candle/ship_candle.dart';
+import 'package:pirate_action/component/ship_components/interiors/ship_chain.dart';
 import 'package:pirate_action/component/ship_components/interiors/ship_door.dart';
+import 'package:pirate_action/component/ship_components/interiors/ship_window/ship_window.dart';
 import 'package:pirate_action/component/ship_components/ship/ship_component.dart';
 import 'package:pirate_action/component/ship_components/water/water_top_component.dart';
 import 'package:pirate_action/component/sword_component.dart';
@@ -323,6 +326,48 @@ class Level extends World with HasGameReference<MainGame> {
                 ShipDoor(inputPosition: getPosition, inputSize: getSize);
 
             add(shipDoor);
+
+            break;
+          case "window":
+            // get position
+            Vector2 getPosition = object.position;
+            Vector2 getSize = object.size;
+
+            ShipWindow shipWindow =
+                ShipWindow(inputPosition: getPosition, inputSize: getSize);
+
+            add(shipWindow);
+
+            break;
+          case "candle":
+            // get position
+            Vector2 getPosition = object.position;
+            Vector2 getSize = object.size;
+
+            // create candle
+            ShipCandle shipCandle =
+                ShipCandle(inputPosition: getPosition, inputSize: getSize);
+
+            add(shipCandle);
+
+            break;
+          case "chain":
+            // get position
+            Vector2 getPosition = object.position;
+            Vector2 getSize = object.size;
+
+            // get is big property
+            bool getIsBig = object.properties.getValue<bool>("isBig") ?? false;
+
+            // create object
+            ShipChain shipChain = ShipChain(
+                inputPosition: getPosition,
+                inputSize: getSize,
+                isBig: getIsBig);
+
+            add(shipChain);
+
+            break;
         }
       }
     }

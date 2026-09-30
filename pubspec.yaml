@@ -151,6 +151,12 @@ flutter:
     - assets/images/Treasure Hunters/Merchant Ship/Sprites/Ship/Sail/Wind/
     - assets/images/Treasure Hunters/Pirate Ship/Sprites/Decorations/Door/Opening/
     - assets/images/Treasure Hunters/Pirate Ship/Sprites/Decorations/Door/Closing/
+    - assets/images/Treasure Hunters/Pirate Ship/Sprites/Decorations/Window/Window/
+    - assets/images/Treasure Hunters/Pirate Ship/Sprites/Decorations/Window/Window Light/
+    - assets/images/Treasure Hunters/Pirate Ship/Sprites/Decorations/Candle/Candle/
+    - assets/images/Treasure Hunters/Pirate Ship/Sprites/Decorations/Candle/Candle Light/
+    - assets/images/Treasure Hunters/Pirate Ship/Sprites/Decorations/Chains/Big/
+    - assets/images/Treasure Hunters/Pirate Ship/Sprites/Decorations/Chains/Small/
     - assets/images/hud/
 
   # An image asset can refer to one or more resolution-specific "variants", see
